@@ -426,15 +426,6 @@ function showInvoiceDetail(index) {
           <p>Tanggal dibuat: ${data.tanggalFormat}</p>
           <p>ID Servis: ${data.serviceId}</p>
         </div>
-
-        <div class="invoice-actions">
-          <button class="btn" onclick="exportPdf('${data.serviceId}')">
-            Export PDF
-          </button>
-
-          <button class="btn btn-wa" onclick="sendWa('${data.serviceId}')">
-            Kirim WA
-          </button>
         </div>
       </div>
 
@@ -560,20 +551,7 @@ function showInvoiceDetail(index) {
         .createInvoicePdf(serviceId);
     }
 
-    function sendWa(serviceId) {
-      google.script.run
-        .withSuccessHandler(function(res) {
-          if (res && res.success) {
-            alert("Laporan berhasil dikirim ke WhatsApp.");
-          } else {
-            alert("Gagal kirim WhatsApp.");
-          }
-        })
-        .withFailureHandler(function(error) {
-          alert("Gagal kirim WhatsApp: " + error.message);
-        })
-        .sendServiceReport(serviceId);
-    }
+
 
     function logoutCustomer() {
       google.script.run

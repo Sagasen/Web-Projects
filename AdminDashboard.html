@@ -809,55 +809,59 @@
     }
 
     function openVehicles(btn) {
-      setActive(btn);
-      setPage("Kendaraan", "Kelola kendaraan pelanggan.");
+  setActive(btn);
+  setPage("Kendaraan", "Kelola kendaraan pelanggan.");
 
-      document.getElementById("adminContent").innerHTML = `
-        <div class="card">
-          <div class="section-head">
-            <div>
-              <h3>Pilih Pelanggan</h3>
-              <p>Cari pelanggan untuk melihat atau menambah kendaraan.</p>
-            </div>
-          </div>
-
-          <div class="search-row">
-            <input id="vehicleCustomerKeyword" placeholder="Cari nama / nomor HP">
-            <button class="btn" onclick="searchCustomerForVehicle()">Cari</button>
-          </div>
-
-          <div id="vehicleCustomerResult" class="result-grid"></div>
-          <div id="vehicleResult" style="margin-top:18px;"></div>
+  document.getElementById("adminContent").innerHTML = `
+    <div class="card">
+      <div class="section-head">
+        <div>
+          <h3>Pilih Pelanggan</h3>
+          <p>Cari pelanggan untuk melihat atau menambah kendaraan.</p>
         </div>
-      `;
-    }
+      </div>
 
-    function searchCustomerForVehicle() {
-      const keyword = document.getElementById("vehicleCustomerKeyword").value || "";
+      <div class="search-row">
+        <input id="vehicleCustomerKeyword" placeholder="Cari nama / nomor HP">
+        <button class="btn" onclick="searchCustomerForVehicle()">Cari</button>
+      </div>
 
-      google.script.run
-        .withSuccessHandler(function(data) {
-          let html = "";
-          if (!data || data.length === 0) {
-            html = `<div class="empty">Pelanggan tidak ditemukan.</div>`;
-          } else {
-            data.forEach(c => {
-              html += `
-                <div class="data-card">
-                  <h4>${c.nama}</h4>
-                  <p>📱 ${c.hp}</p>
-                  <button class="btn btn-small" onclick="showCustomerVehicles('${c.customerId}')">Pilih</button>
-                </div>
-              `;
-            });
-          }
-          document.getElementById("vehicleCustomerResult").innerHTML = html;
-        })
-        .withFailureHandler(function(err) {
-          alert("Gagal mencari pelanggan: " + err.message);
-        })
-        .adminSearchCustomers(keyword);
-    }
+      <div id="vehicleCustomerResult" class="result-grid"></div>
+      <div id="vehicleResult" style="margin-top:18px;"></div>
+    </div>
+  `;
+}
+
+   function searchCustomerForVehicle() {
+  const keyword = document.getElementById("vehicleCustomerKeyword").value || "";
+
+  google.script.run
+    .withSuccessHandler(function(data) {
+      let html = "";
+
+      if (!data || data.length === 0) {
+        html = `<div class="empty">Pelanggan tidak ditemukan.</div>`;
+      } else {
+        data.forEach(c => {
+          html += `
+            <div class="data-card">
+              <h4>${c.nama}</h4>
+              <p>📱 ${c.hp}</p>
+              <button class="btn btn-small" onclick="showManageVehicles('${c.customerId}')">
+                Pilih
+              </button>
+            </div>
+          `;
+        });
+      }
+
+      document.getElementById("vehicleCustomerResult").innerHTML = html;
+    })
+    .withFailureHandler(function(err) {
+      alert("Gagal mencari pelanggan: " + err.message);
+    })
+    .adminSearchCustomers(keyword);
+}
 
 function showCustomerVehicles(customerId) {
   selectedCustomerId = customerId;
@@ -977,59 +981,65 @@ function showVehicleServiceHistory(vehicleId) {
     .adminGetServiceHistoryByVehicle(vehicleId);
 }
 
-    function showAddVehicleForm(customerId) {
-      selectedCustomerId = customerId;
+  function showAddVehicleForm(customerId) {
+  selectedCustomerId = customerId;
 
-      document.getElementById("vehicleResult").innerHTML = `
-        <div class="card">
-          <h3 style="margin-top:0;">Tambah Kendaraan</h3>
+  document.getElementById("vehicleResult").innerHTML = `
+    <div class="card">
+      <h3 style="margin-top:0;">Tambah Kendaraan</h3>
 
-          <div class="field">
-            <label>Merk</label>
-            <input id="addMerk" placeholder="Contoh: Honda">
-          </div>
+      <div class="field">
+        <label>Merk</label>
+        <input id="addMerk" placeholder="Contoh: Honda">
+      </div>
 
-          <div class="field">
-            <label>Tipe</label>
-            <input id="addTipe" placeholder="Contoh: Beat">
-          </div>
+      <div class="field">
+        <label>Tipe</label>
+        <input id="addTipe" placeholder="Contoh: Beat">
+      </div>
 
-          <div class="field">
-            <label>Plat Nomor</label>
-            <input id="addPlat" placeholder="Contoh: AD1234XX">
-          </div>
+      <div class="field">
+        <label>Plat Nomor</label>
+        <input id="addPlat" placeholder="Contoh: AD1234XX">
+      </div>
 
-          <div class="form-actions">
-            <button class="btn btn-secondary" onclick="showCustomerVehicles('${customerId}')">Batal</button>
-            <button class="btn" onclick="saveVehicleAdmin()">Simpan Kendaraan</button>
-          </div>
-        </div>
-      `;
-    }
+      <div class="form-actions">
+        <button class="btn btn-secondary" onclick="showManageVehicles('${customerId}')">
+          Batal
+        </button>
 
-    function saveVehicleAdmin() {
-      const data = {
-        customerId: selectedCustomerId,
-        merk: document.getElementById("addMerk").value.trim(),
-        tipe: document.getElementById("addTipe").value.trim(),
-        plat: document.getElementById("addPlat").value.trim()
-      };
+        <button class="btn" onclick="saveVehicleAdmin()">
+          Simpan Kendaraan
+        </button>
+      </div>
+    </div>
+  `;
+}
 
-      if (!data.customerId || !data.merk || !data.tipe || !data.plat) {
-        alert("Semua data kendaraan wajib diisi.");
-        return;
-      }
+  function saveVehicleAdmin() {
+  const data = {
+    customerId: selectedCustomerId,
+    merk: document.getElementById("addMerk").value.trim(),
+    tipe: document.getElementById("addTipe").value.trim(),
+    plat: document.getElementById("addPlat").value.trim()
+  };
 
-      google.script.run
-        .withSuccessHandler(function() {
-          alert("Kendaraan berhasil ditambahkan.");
-          showCustomerVehicles(selectedCustomerId);
-        })
-        .withFailureHandler(function(err) {
-          alert("Gagal menyimpan kendaraan: " + err.message);
-        })
-        .adminAddVehicle(data);
-    }
+  if (!data.customerId || !data.merk || !data.tipe || !data.plat) {
+    alert("Semua data kendaraan wajib diisi.");
+    return;
+  }
+
+  google.script.run
+    .withSuccessHandler(function() {
+      alert("Kendaraan berhasil ditambahkan.");
+      showManageVehicles(selectedCustomerId);
+    })
+    .withFailureHandler(function(err) {
+      alert("Gagal menyimpan kendaraan: " + err.message);
+    })
+    .adminAddVehicle(data);
+}
+
 
     function openServices(btn) {
       setActive(btn);
@@ -1127,6 +1137,57 @@ function showVehicleServiceHistory(vehicleId) {
         .adminSearchCustomers(keyword);
     }
 
+
+function showManageVehicles(customerId) {
+  selectedCustomerId = customerId;
+
+  google.script.run
+    .withSuccessHandler(function(data) {
+      let html = `
+        <div class="card">
+          <div class="section-head">
+            <div>
+              <h3>Daftar Kendaraan</h3>
+              <p>Kendaraan milik pelanggan terpilih.</p>
+            </div>
+
+            <button class="btn btn-small" onclick="showAddVehicleForm('${customerId}')">
+              + Tambah Kendaraan
+            </button>
+          </div>
+      `;
+
+      if (!data || data.length === 0) {
+        html += `<div class="empty">Belum ada kendaraan.</div>`;
+      } else {
+        data.forEach(v => {
+          html += `
+            <div class="vehicle-card">
+              <div>
+                <h4>${v.merk} ${v.tipe}</h4>
+                <p>Plat: ${v.noPolisi}</p>
+              </div>
+
+              <button class="btn btn-small" onclick="showVehicleServiceHistory('${v.vehicleId}')">
+                Riwayat Servis
+              </button>
+            </div>
+          `;
+        });
+      }
+
+      html += `</div>`;
+
+      document.getElementById("vehicleResult").innerHTML = html;
+    })
+    .withFailureHandler(function(err) {
+      alert("Gagal memuat kendaraan: " + err.message);
+    })
+    .adminGetVehiclesByCustomer(customerId);
+}
+
+
+
     function selectCustomerForService(customerId) {
       selectedCustomerId = customerId;
 
@@ -1179,49 +1240,119 @@ function showVehicleServiceHistory(vehicleId) {
       wrap.appendChild(div);
     }
 
-    function saveServiceAdmin() {
-      if (!selectedCustomerId || !selectedVehicleId) {
-        alert("Pilih pelanggan dan kendaraan terlebih dahulu.");
+ function saveServiceAdmin() {
+  if (!selectedCustomerId || !selectedVehicleId) {
+    alert("Pilih pelanggan dan kendaraan terlebih dahulu.");
+    return;
+  }
+
+  const km = document.getElementById("km").value.trim();
+  const keluhan = document.getElementById("keluhan").value.trim();
+  const diagnosa = document.getElementById("diagnosa").value.trim();
+  const mekanik = document.getElementById("mekanik").value.trim();
+  const jasa = Number(document.getElementById("jasa").value || 0);
+
+  if (!km) {
+    alert("KM kendaraan wajib diisi.");
+    return;
+  }
+
+  if (!keluhan) {
+    alert("Keluhan wajib diisi.");
+    return;
+  }
+
+  if (!diagnosa) {
+    alert("Diagnosa wajib diisi.");
+    return;
+  }
+
+  if (!mekanik) {
+    alert("Nama mekanik wajib diisi.");
+    return;
+  }
+
+  if (jasa < 0) {
+    alert("Biaya jasa tidak boleh minus.");
+    return;
+  }
+
+  const items = [];
+
+  const namaEls = document.querySelectorAll(".spNama");
+  const qtyEls = document.querySelectorAll(".spQty");
+  const hargaEls = document.querySelectorAll(".spHarga");
+
+  for (let i = 0; i < namaEls.length; i++) {
+    const nama = namaEls[i].value.trim();
+    const qty = Number(qtyEls[i].value || 0);
+    const harga = Number(hargaEls[i].value || 0);
+
+    if (nama || qty || harga) {
+      if (!nama) {
+        alert("Nama sparepart wajib diisi.");
         return;
       }
 
-      const items = [];
-      document.querySelectorAll(".spNama").forEach((el, index) => {
-        const nama = el.value.trim();
-        const qty = Number(document.querySelectorAll(".spQty")[index].value || 0);
-        const harga = Number(document.querySelectorAll(".spHarga")[index].value || 0);
+      if (qty <= 0) {
+        alert("Qty sparepart wajib diisi dan harus lebih dari 0.");
+        return;
+      }
 
-        if (nama && qty > 0) {
-          items.push({
-            nama: nama,
-            qty: qty,
-            harga: harga,
-            subtotal: qty * harga
-          });
-        }
+      if (harga < 0) {
+        alert("Harga sparepart tidak boleh minus.");
+        return;
+      }
+
+      items.push({
+        nama: nama,
+        qty: qty,
+        harga: harga,
+        subtotal: qty * harga
       });
-
-      const data = {
-        customerId: selectedCustomerId,
-        vehicleId: selectedVehicleId,
-        km: document.getElementById("km").value,
-        keluhan: document.getElementById("keluhan").value,
-        diagnosa: document.getElementById("diagnosa").value,
-        mekanik: document.getElementById("mekanik").value,
-        jasa: document.getElementById("jasa").value,
-        items: items
-      };
-
-      google.script.run
-        .withSuccessHandler(function(serviceId) {
-          alert("Servis berhasil disimpan. ID: " + serviceId);
-          openDashboard(document.querySelectorAll(".nav-btn")[0]);
-        })
-        .withFailureHandler(function(err) {
-          alert("Gagal menyimpan servis: " + err.message);
-        })
-        .saveService(data);
     }
+  }
+
+  const data = {
+    customerId: selectedCustomerId,
+    vehicleId: selectedVehicleId,
+    km: km,
+    keluhan: keluhan,
+    diagnosa: diagnosa,
+    mekanik: mekanik,
+    jasa: jasa,
+    items: items
+  };
+
+  const btn = event.target;
+  btn.disabled = true;
+  btn.innerText = "Menyimpan...";
+
+  google.script.run
+    .withSuccessHandler(function(res) {
+      btn.disabled = false;
+      btn.innerText = "Simpan Servis";
+
+      if (res && res.success) {
+        alert("Servis berhasil disimpan.");
+
+        if (res.waUrl) {
+          window.open(res.waUrl, "_blank");
+        }
+
+        openDashboard(document.querySelectorAll(".nav-btn")[0]);
+      } else {
+        alert("Servis berhasil diproses, tapi response server tidak sesuai.");
+      }
+    })
+    .withFailureHandler(function(error) {
+      btn.disabled = false;
+      btn.innerText = "Simpan Servis";
+
+      alert("Gagal menyimpan servis: " + error.message);
+    })
+    .saveService(data);
+}
 
     function loadServiceHistory() {
       google.script.run

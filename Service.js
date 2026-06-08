@@ -35,13 +35,19 @@ function saveService(data) {
     Logger.log("Reminder gagal dibuat: " + err.message);
   }
 
+  let waUrl = "";
+
   try {
-    sendServiceReport(serviceId);
+    waUrl = createWhatsAppWebReportUrl(serviceId);
   } catch (err) {
-    Logger.log("WhatsApp gagal dikirim: " + err.message);
+    Logger.log("Link WhatsApp gagal dibuat: " + err.message);
   }
 
-  return serviceId;
+  return {
+    success: true,
+    serviceId: serviceId,
+    waUrl: waUrl
+  };
 }
 
 
@@ -178,18 +184,9 @@ Terima kasih sudah melakukan servis di ${data.namaBengkel}.
 
 
 function sendServiceReport(serviceId) {
-  const data = getInvoiceDetailForCustomer(serviceId);
-  const invoice = generateInvoiceText(serviceId);
-
-  if (!data.hp || data.hp === "-") {
-    throw new Error("Nomor HP customer tidak ditemukan.");
-  }
-
-  sendWhatsApp(data.hp, invoice);
-
   return {
     success: true,
-    hp: data.hp
+    url: createWhatsAppWebReportUrl(serviceId)
   };
 }
 
@@ -374,31 +371,7 @@ function createInvoicePdf(serviceId) {
 }
 
 //SendWhatsApp
-function sendWhatsApp(hp, message) {
-  const token = "o41pnvpmV52cr7AqMYwx";
 
-  const url = "https://api.fonnte.com/send";
-
-  const payload = {
-    target: formatPhoneForWa(hp),
-    message: message
-  };
-
-  const options = {
-    method: "post",
-    headers: {
-      Authorization: token
-    },
-    payload: payload,
-    muteHttpExceptions: true
-  };
-
-  const response = UrlFetchApp.fetch(url, options);
-
-  Logger.log(response.getContentText());
-
-  return response.getContentText();
-}
 
 
 function formatPhoneForWa(hp) {
@@ -691,4 +664,76 @@ function getInvoiceDetailForCustomer(serviceId) {
     totalBiaya: totalBiaya,
     items: items
   };
+}
+
+//Pembuat Laporan WhatsApp Web
+function createWhatsAppWebReportUrl(serviceId) {
+  const data = getInvoiceDetailForCustomer(serviceId);
+
+  const hp = formatPhoneForWa(data.hp);
+  const message = generateWhatsAppReportText(serviceId);
+
+  return "https://wa.me/" + hp + "?text=" + encodeURIComponent(message);
+}
+
+//Template Laporan WhatsApp Web
+function generateWhatsAppReportText(serviceId) {
+  const data = getInvoiceDetailForCustomer(serviceId);
+
+  let text =
+`Halo Kak ${data.namaPelanggan},
+
+Terima kasih sudah melakukan servis di ${data.namaBengkel}.
+
+Berikut laporan servis kendaraan Kakak:
+
+Tanggal Servis: ${data.tanggalFormat}
+ID Servis: ${data.serviceId}
+
+DATA KENDARAAN
+Plat: ${data.plat}
+Motor: ${data.merk} ${data.tipe}
+KM: ${data.km}
+
+DETAIL SERVIS
+Keluhan:
+${data.keluhan}
+
+Diagnosa:
+${data.diagnosa}
+
+Mekanik:
+${data.mekanik}
+
+RINCIAN BIAYA
+Jasa Servis: Rp ${Number(data.jasa).toLocaleString("id-ID")}
+`;
+
+  if (!data.items || data.items.length === 0) {
+    text += `
+Sparepart: Tidak ada
+`;
+  } else {
+    text += `
+Sparepart:
+`;
+
+    data.items.forEach(function(item, index) {
+      text += `
+${index + 1}. ${item.nama}
+   Qty: ${item.qty}
+   Harga: Rp ${Number(item.harga).toLocaleString("id-ID")}
+   Subtotal: Rp ${Number(item.subtotal).toLocaleString("id-ID")}
+`;
+    });
+  }
+
+  text += `
+Total Sparepart: Rp ${Number(data.totalSparepart).toLocaleString("id-ID")}
+TOTAL BIAYA: Rp ${Number(data.totalBiaya).toLocaleString("id-ID")}
+
+Silakan hubungi kami jika ada pertanyaan.
+Terima kasih 🙏`;
+
+  return text;
 }
