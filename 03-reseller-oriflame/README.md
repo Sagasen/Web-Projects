@@ -50,43 +50,36 @@ VITE_WHATSAPP_NUMBER=6281234567890
 
 ### 3. Setup Firebase
 
-Firebase config sudah dikonfigurasi di `src/config/firebase.js`.
+Project ini menggunakan Firebase Authentication untuk login admin dan Firestore sebagai database produk serta promo.
 
-#### a. Aktifkan Authentication
+Langkah setup:
 
-1. Buka [Firebase Console](https://console.firebase.google.com/) → project `oriflame-catalog-d7ad5`
-2. **Authentication** → **Sign-in method** → aktifkan **Email/Password**
-3. **Authentication** → **Users** → **Add user** → buat akun admin (email + password)
+1. Buat project di Firebase Console.
+2. Aktifkan **Authentication** dengan metode **Email/Password**.
+3. Buat akun admin melalui menu **Authentication → Users**.
+4. Aktifkan **Firestore Database**.
+5. Terapkan rules dari file `firestore.rules`.
 
-#### b. Aktifkan Firestore
+Jika Firestore meminta composite index, ikuti link error yang muncul di browser console untuk membuat index secara otomatis.
 
-1. **Firestore Database** → **Create database** → pilih mode **Production** (atau Test untuk development)
-2. Deploy security rules dari file `firestore.rules`:
+### 4. Setup Cloudinary
 
-   ```bash
-   firebase deploy --only firestore:rules
-   ```
+Project ini menggunakan Cloudinary untuk upload gambar produk dan promo.
 
-   Atau salin isi `firestore.rules` ke **Firestore** → **Rules** di Firebase Console.
+Langkah setup:
 
-#### c. Buat index (jika diminta)
+1. Buat akun Cloudinary.
+2. Catat **Cloud Name** dari dashboard.
+3. Buat **Unsigned Upload Preset**.
+4. Masukkan konfigurasi Cloudinary ke file `.env`.
 
-Firestore mungkin meminta composite index untuk query `orderBy('createdAt')`. Klik link error di browser console untuk membuat index otomatis.
+Contoh:
 
-### 4. Setup Cloudinary (Gratis, Tanpa Kartu Kredit)
-
-1. Daftar di [cloudinary.com](https://cloudinary.com/) (paket Free)
-2. Di **Dashboard**, catat **Cloud Name**
-3. Buka **Settings** → **Upload** → **Upload presets**
-4. Klik **Add upload preset**:
-   - **Signing Mode**: `Unsigned`
-   - **Folder** (opsional): `oriflame`
-   - Simpan dan catat nama preset-nya
-5. Masukkan ke file `.env`:
-   ```
-   VITE_CLOUDINARY_CLOUD_NAME=...
-   VITE_CLOUDINARY_UPLOAD_PRESET=...
-   ```
+```env
+VITE_CLOUDINARY_CLOUD_NAME=your_cloud_name
+VITE_CLOUDINARY_UPLOAD_PRESET=your_upload_preset
+VITE_WHATSAPP_NUMBER=6281234567890
+```
 
 ### 5. Jalankan development server
 
