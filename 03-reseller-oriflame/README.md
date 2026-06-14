@@ -16,7 +16,7 @@ Aplikasi web katalog produk Oriflame dengan React + Vite + Tailwind CSS, Firebas
 - React 19 + Vite 8
 - Tailwind CSS 4
 - Firebase Firestore & Authentication
-- Cloudinary (upload gambar gratis)
+- Cloudinary
 - React Router DOM
 - Lucide React (ikon)
 
