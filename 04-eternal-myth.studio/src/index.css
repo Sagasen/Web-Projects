@@ -1,0 +1,160 @@
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-serif: 'Cinzel', Georgia, serif;
+  --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+
+  /* Gold palette */
+  --color-gold-light:   #f0d878;
+  --color-gold-primary: #d4af37;
+  --color-gold-dark:    #a07820;
+  --color-gold-glow:    #e5c158;
+  --color-gold-soft:    #c9a227;
+
+  /* Crimson / Error */
+  --color-crimson-light:   #f87171;
+  --color-crimson-primary: #dc2626;
+  --color-crimson-dark:    #7f1d1d;
+
+  /* Charcoal / Obsidian scale (replacing purple-tinted obsidian) */
+  --color-obsidian-950: #0a0a0c;
+  --color-obsidian-900: #111114;
+  --color-obsidian-800: #1c1c21;
+  --color-obsidian-700: #27272f;
+  --color-obsidian-600: #36363f;
+  /* Border: warm gray-gold, not purple */
+  --color-obsidian-border: rgba(180, 160, 90, 0.18);
+
+  /* Animations */
+  --animate-glow-slow:  glow-slow 8s ease-in-out infinite alternate;
+  --animate-pulse-slow: pulse-slow 3s ease-in-out infinite;
+
+  @keyframes glow-slow {
+    0%   { text-shadow: 0 0 10px rgba(212,175,55,0.25), 0 0 22px rgba(212,175,55,0.12); }
+    100% { text-shadow: 0 0 18px rgba(212,175,55,0.55), 0 0 35px rgba(212,175,55,0.25); }
+  }
+  @keyframes pulse-slow {
+    0%, 100% { opacity: 0.65; transform: scale(1); }
+    50%       { opacity: 1;    transform: scale(1.03); }
+  }
+}
+
+/* ============================================================
+   BASE STYLES
+   ============================================================ */
+html, body {
+  background-color: var(--color-obsidian-950);
+  color: #e2e8f0;
+  font-family: var(--font-sans);
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+}
+
+#root {
+  display: block;
+  width: 100%;
+  margin: 0;
+  text-align: left;
+  border-inline: none;
+  min-height: 100vh;
+  /* Gold-tinted charcoal radial — no purple */
+  background: radial-gradient(circle at 50% -10%, #1e1a0a 0%, var(--color-obsidian-950) 60%);
+}
+
+/* ============================================================
+   SCROLLBAR
+   ============================================================ */
+::-webkit-scrollbar        { width: 7px; }
+::-webkit-scrollbar-track  { background: var(--color-obsidian-950); }
+::-webkit-scrollbar-thumb  {
+  background: #2a2a1a;
+  border-radius: 4px;
+  border: 1px solid rgba(212,175,55,0.2);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #3a3a20;
+  border-color: rgba(212,175,55,0.45);
+}
+
+/* ============================================================
+   TYPOGRAPHY
+   ============================================================ */
+.font-fantasy {
+  font-family: var(--font-serif);
+  letter-spacing: 0.05em;
+}
+
+/* ============================================================
+   GLOW UTILITIES
+   ============================================================ */
+.text-glow-gold {
+  text-shadow: 0 0 10px rgba(212,175,55,0.4), 0 0 22px rgba(212,175,55,0.18);
+}
+.text-glow-crimson {
+  text-shadow: 0 0 10px rgba(220,38,38,0.4), 0 0 20px rgba(220,38,38,0.18);
+}
+
+/* ============================================================
+   GLASS PANELS  (charcoal, no purple tint)
+   ============================================================ */
+.glass-panel {
+  background: rgba(17, 17, 20, 0.72);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(180,160,90,0.14);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.45);
+}
+
+.glass-panel-glow {
+  border: 1px solid rgba(212,175,55,0.28);
+  box-shadow: 0 0 28px rgba(212,175,55,0.08), inset 0 0 14px rgba(212,175,55,0.04);
+}
+
+.glass-panel-glow-crimson {
+  border: 1px solid rgba(220,38,38,0.25);
+  box-shadow: 0 0 25px rgba(220,38,38,0.08), inset 0 0 12px rgba(220,38,38,0.04);
+}
+
+/* ============================================================
+   BUTTONS
+   ============================================================ */
+.btn-premium-gold {
+  background: linear-gradient(135deg, #d4af37 0%, #a07820 100%);
+  color: #0a0a0c;
+  text-shadow: 0 1px 1px rgba(255,255,255,0.15);
+  box-shadow: 0 0 18px rgba(212,175,55,0.28);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  font-weight: 700;
+  letter-spacing: 0.05em;
+}
+.btn-premium-gold:hover {
+  background: linear-gradient(135deg, #f0d878 0%, #d4af37 100%);
+  box-shadow: 0 0 28px rgba(212,175,55,0.5), 0 0 6px rgba(255,255,255,0.25);
+  transform: translateY(-1px);
+}
+.btn-premium-gold:active  { transform: translateY(1px); }
+
+/* Warm gray secondary button (replaces purple) */
+.btn-premium-dark {
+  background: rgba(28, 28, 33, 0.85);
+  border: 1px solid rgba(180,160,90,0.25);
+  color: #e2e8f0;
+  transition: all 0.3s ease;
+}
+.btn-premium-dark:hover {
+  background: rgba(40, 38, 24, 0.95);
+  border-color: rgba(212,175,55,0.45);
+  box-shadow: 0 0 14px rgba(212,175,55,0.18);
+  color: #ffffff;
+}
+
+/* ============================================================
+   FOCUS HELPER
+   ============================================================ */
+.gold-glow-border:focus-within {
+  border-color: #d4af37;
+  box-shadow: 0 0 10px rgba(212,175,55,0.25);
+}
