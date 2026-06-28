@@ -1,0 +1,226 @@
+<style>
+body {
+  margin:0;
+  font-family:'Inter', sans-serif;
+  background:#f5f7fb;
+}
+.app {
+  display:flex;
+  height:100vh;
+}
+/* SIDEBAR */
+.sidebar {
+  width:220px;
+  background:#0f172a;
+  color:white;
+  padding:20px;
+}
+.sidebar h2 { margin-bottom:20px; }
+.sidebar button {
+  width:100%;
+  padding:12px;
+  margin-bottom:10px;
+  background:#1e293b;
+  border:none;
+  color:white;
+  border-radius:8px;
+  cursor:pointer;
+}
+.sidebar button:hover {
+  background:#334155;
+}
+
+/* MAIN */
+.main {
+  flex:1;
+  padding:20px;
+  overflow:auto;
+}
+/* TOPBAR */
+.topbar {
+  display:none;
+}
+/* GRID */
+.product-grid {
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(220px,1fr));
+  gap:20px;
+  margin-top:20px;
+}
+.card {
+  background:white;
+  padding:15px;
+  border-radius:14px;
+  transition:0.25s;
+  cursor:pointer;
+}
+.card:hover {
+  transform:translateY(-6px);
+  box-shadow:0 12px 25px rgba(0,0,0,0.12);
+}
+.card img {
+  width:100%;
+  aspect-ratio:1/1;
+  object-fit:cover;
+  border-radius:12px;
+  background:#f1f5f9;
+}
+.name { margin-top:10px; font-size:16px; font-weight:500; }
+.price { font-weight:bold; color:#16a34a; font-size:16px; }
+/* CART */
+.cart {
+  width:280px;
+  background:white;
+  padding:20px;
+  border-left:1px solid #eee;
+}
+.cart-item {
+  display:flex;
+  justify-content:space-between;
+  margin-bottom:8px;
+}
+.qty {
+  display:flex;
+  gap:5px;
+}
+.qty button {
+  width:25px;
+  height:25px;
+}
+.total {
+  font-size:18px;
+  margin-top:10px;
+  font-weight:bold;
+}
+.checkout {
+  width:100%;
+  margin-top:10px;
+  padding:12px;
+  background:#16a34a;
+  color:white;
+  border:none;
+  border-radius:10px;
+}
+.payment-box {
+  margin-top:15px;
+}
+.payment-box label {
+  font-size:13px;
+  color:#555;
+}
+.payment-box input {
+  width:100%;
+  padding:10px;
+  border-radius:8px;
+  border:1px solid #ddd;
+  margin:5px 0 10px;
+}
+#kembalian {
+  font-weight:bold;
+  font-size:16px;
+  color:#16a34a;
+}
+/* TABLE */
+.table {
+  background:white;
+  border-radius:10px;
+  margin-top:15px;
+  overflow:hidden;
+}
+/* REKAP */
+.cards {
+  display:flex;
+  gap:15px;
+}
+.card-stat {
+  background:white;
+  padding:15px;
+  border-radius:10px;
+  flex:1;
+}
+.btn {
+  margin-top:15px;
+  padding:10px;
+  background:#2563eb;
+  color:white;
+  border:none;
+  border-radius:8px;
+}
+.popup {
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  background:rgba(0,0,0,0.4);
+  display:none;
+  justify-content:center;
+  align-items:center;
+}
+.popup-box {
+  background:white;
+  padding:20px;
+  border-radius:12px;
+  width:300px;
+}
+.popup-total {
+  margin-top:10px;
+  font-weight:bold;
+}
+.popup-action {
+  display:flex;
+  justify-content:space-between;
+  margin-top:15px;
+}
+.popup-action button {
+  padding:8px 12px;
+  border:none;
+  border-radius:6px;
+}
+.confirm {
+  background:#16a34a;
+  color:white;
+}
+.row {
+  display:grid;
+  grid-template-columns:repeat(5,1fr);
+  padding:10px;
+  border-bottom:1px solid #eee;
+  font-size:14px;
+}
+.page {
+  display:none;
+}
+.page.active {
+  display:block;
+}
+.head {
+  background:#0f172a;
+  color:white;
+  font-weight:bold;
+}
+.expense-form {
+  background:white;
+  padding:20px;
+  border-radius:12px;
+  max-width:700px;
+}
+.form-group {
+  margin-bottom:15px;
+}
+.form-group label {
+  display:block;
+  margin-bottom:6px;
+  font-weight:600;
+}
+.form-group input,
+.form-group select,
+.form-group textarea {
+  width:100%;
+  padding:10px;
+  border:1px solid #ddd;
+  border-radius:8px;
+  box-sizing:border-box;
+}
+
+</style>

@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <base target="_top">
+  <?!= include('style'); ?>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  
+<div class="app">
+  <div class="sidebar">
+    <h2>🧾 Kasir</h2>
+    <button onclick="nav('kasir')">Kasir</button>
+    <button onclick="nav('transaksi')">Transaksi</button>
+    <button onclick="nav('pengeluaran')">Pengeluaran</button>
+    <button onclick="nav('rekap')">Rekap</button>
+  </div>
+  <div class="main">
+    <div id="kasir" class="page active">
+      <div class="product-grid" id="produk"></div>
+    </div>
+    <div id="transaksi" class="page">
+      <h2>Data Transaksi</h2>
+      <div class="table">
+        <div class="row head">
+          <div>ID</div>
+          <div>Tanggal</div>
+          <div>Produk</div>
+          <div>Qty</div>
+          <div>Total</div>
+        </div>
+        <div id="dataTransaksi"></div>
+      </div>
+    </div>
+    <div id="pengeluaran" class="page">
+      <h2>Pengeluaran</h2>
+      <div class="expense-form">
+        <div class="form-group">
+          <label>Kategori</label>
+          <select id="expKategori">
+            <option>Bahan Baku</option>
+            <option>Gaji Karyawan</option>
+            <option>Listrik/Air</option>
+            <option>Alat</option>
+            <option>Kemasan</option>
+            <option>Ongkos Kirim</option>
+            <option>Lainnya</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Catatan</label>
+          <textarea id="expCatatan" rows="3" placeholder="Catatan tambahan"></textarea>
+        </div>
+        <div class="form-group">
+          <label>Nominal</label>
+          <input type="number" id="expNominal" placeholder="Masukkan nominal">
+        </div>
+        <button id="btnSimpanPengeluaran" class="btn" onclick="simpanPengeluaran()">
+          Simpan Pengeluaran
+        </button>
+      </div>
+      <h3 style="margin-top:30px">History Pengeluaran</h3>
+      <div class="table">
+        <div class="row head">
+          <div>ID</div>
+          <div>Tanggal</div>
+          <div>Kategori</div>
+          <div>Catatan</div>
+          <div>Nominal</div>
+        </div>
+        <div id="dataPengeluaran"></div>
+      </div>
+    </div>
+    <div id="rekap" class="page">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+        <h2>Rekap Bisnis & Analisis AI</h2>
+        <div>
+          <label style="font-weight: bold; margin-right: 8px;">Urutkan:</label>
+          <select id="filterWaktuRekap" onchange="loadRekap()" style="padding: 8px 12px; border-radius: 6px; border: 1px solid #ccc; font-size: 14px; background-color: #fff; cursor: pointer;">
+            <option value="semua">Semua Waktu</option>
+            <option value="hari">Hari Ini</option>
+            <option value="minggu">Seminggu Terakhir</option>
+            <option value="bulan">Sebulan Terakhir</option>
+            <option value="tahun">Setahun Terakhir</option>
+            <option value="2025">Tahun 2025</option>
+            <option value="2026">Tahun 2026</option>
+          </select>
+        </div>
+      </div>
+      <div class="cards" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px;">
+        <div class="card-stat">
+          <span>Total Pemasukan</span>
+          <h3 id="totalPemasukan">Rp0</h3>
+        </div>
+        <div class="card-stat">
+          <span>Total Pengeluaran</span>
+          <h3 id="totalPengeluaran" style="color: #e71d36;">Rp0</h3>
+        </div>
+        <div class="card-stat">
+          <span>Total Laba</span>
+          <h3 id="totalLaba" style="color: #2ec4b6;">Rp0</h3>
+        </div>
+        <div class="card-stat">
+          <span>Total Rugi</span>
+          <h3 id="totalRugi" style="color: #e71d36;">Rp0</h3>
+        </div>
+      </div>
+      <div class="row" style="margin-top: 20px; display: flex; gap: 20px; flex-wrap: wrap;">
+        <div class="card-stat" style="flex: 2; min-width: 300px; background: white; padding: 15px; border-radius: 8px;">
+          <h4 style="margin-top: 0;">📈 Grafik Perkembangan Usaha (AI)</h4>
+          <div style="height: 250px; position: relative;">
+            <canvas id="chartAI"></canvas>
+          </div>
+        </div>
+        <div class="card-stat" style="flex: 1; min-width: 250px; background: #f8f9fc; padding: 15px; border-radius: 8px; border-left: 5px solid #4e73df;">
+          <h4 style="margin-top: 0;">🤖 Ringkasan Analisis AI</h4>
+          <p id="aiStatus" style="font-size: 14px; color: #555;">Menganalisis data...</p>
+          <hr style="border: 0; border-top: 1px solid #ddd; margin: 15px 0;">
+          <span style="font-size: 12px; color: #888;">Prediksi Bisnis Berikutnya</span>
+          <h4 id="aiPrediksi" style="margin: 5px 0 0 0; color: #4e73df;">Rp0</h4>
+        </div>
+      </div>
+      <div style="margin-top: 20px;">
+        <button class="btn" id="btnExportPDF" onclick="downloadPDF()">Export PDF</button>
+      </div>
+    </div>
+  </div>
+  <div class="cart">
+    <h3>Keranjang</h3>
+    <div id="cartItems"></div>
+    <div class="total" id="total">Rp0</div>
+    <div class="payment-box">
+      <label>Uang Dibayar</label>
+      <input type="number" id="bayarInput" placeholder="Masukkan uang" oninput="hitungKembalian()">
+      <label>Kembalian</label>
+      <div id="kembalian">Rp0</div>
+    </div>
+    <button class="checkout" onclick="checkout()">Bayar</button>
+  </div>
+</div>
+<?!= include('script'); ?>
+<div id="popup" class="popup">
+  <div class="popup-box">
+    <h3>Konfirmasi Pesanan</h3>
+    <div id="popupDetail"></div>
+    <div class="popup-total" id="popupTotal"></div>
+    <div class="popup-action">
+      <button onclick="closePopup()">Batal</button>
+      <button id="btnConfirm" class="confirm" onclick="confirmBayar()">Konfirmasi</button>
+    </div>
+  </div>
+</div>
+</body>
+</html>

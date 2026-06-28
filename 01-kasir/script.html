@@ -1,0 +1,322 @@
+<script>
+let cart = [];
+
+// ================= NAVIGASI HALAMAN SINKRON =================
+function nav(id){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  const cartContainer = document.querySelector('.cart');
+  if(id === 'kasir'){
+    cartContainer.style.display = 'block';
+  } else {
+    cartContainer.style.display = 'none';
+  }
+  if(id === 'transaksi'){
+    loadTransaksi();
+  }
+  if(id === 'pengeluaran'){
+    loadHistoryPengeluaran();
+  }
+  if(id === 'rekap'){
+    loadRekap();
+  }
+}
+
+// ================= LOAD PRODUK KASIR =================
+function loadProduk(){
+  google.script.run.withSuccessHandler(data=>{
+    let html='';
+    data.slice(1).forEach(p=>{
+      html+=`
+        <div class="card" onclick="add('${p[1]}',${p[2]})">
+          <img src="${p[4] || 'https://via.placeholder.com/150'}">
+          <div class="name">${p[1]}</div>
+          <div class="price">Rp${Number(p[2]).toLocaleString('id-ID')}</div>
+        </div>`;
+    });
+    document.getElementById('produk').innerHTML=html;
+  }).getProduk();
+}
+
+// ================= OPERASIONAL KERANJANG =================
+function add(nama,harga){
+  let item=cart.find(x=>x.nama===nama);
+  if(item) item.qty++;
+  else cart.push({nama,harga,qty:1});
+  renderCart();
+}
+
+function changeQty(nama,delta){
+  let item=cart.find(x=>x.nama===nama);
+  if(!item) return;
+  item.qty+=delta;
+  if(item.qty<=0) cart=cart.filter(x=>x.nama!==nama);
+  renderCart();
+}
+
+function renderCart(){
+  let html='',total=0;
+  cart.forEach(i=>{
+    total+=i.qty*i.harga;
+    html+=`
+      <div class="cart-item">
+        <span>${i.nama}</span>
+        <div class="qty">
+          <button onclick="changeQty('${i.nama}',-1)">-</button>
+          <span>${i.qty}</span>
+          <button onclick="changeQty('${i.nama}',1)">+</button>
+        </div>
+      </div>`;
+  });
+  document.getElementById('cartItems').innerHTML=html;
+  document.getElementById('total').innerText="Rp "+total.toLocaleString('id-ID');
+  hitungKembalian();
+}
+
+function hitungKembalian(){
+  let bayar = parseInt(document.getElementById('bayarInput').value) || 0;
+  let total = cart.reduce((a,b)=>a+(b.qty*b.harga),0);
+  let kembali = bayar - total;
+  document.getElementById('kembalian').innerText = kembali >= 0 ? "Rp " + kembali.toLocaleString('id-ID') : "Kurang Rp " + Math.abs(kembali).toLocaleString('id-ID');
+}
+
+// ================= TRANSAKSI CHECKOUT POPUP =================
+function checkout(){
+  if(cart.length===0){
+    alert("Keranjang belanjaan kosong!");
+    return;
+  }
+  let html='', total=0;
+  cart.forEach(i=>{
+    total+=i.qty*i.harga;
+    html+=`${i.nama} x${i.qty}<br>`;
+  });
+  document.getElementById('popupDetail').innerHTML=html;
+  document.getElementById('popupTotal').innerText="Total: Rp "+total.toLocaleString('id-ID');
+  document.getElementById('popup').style.display='flex';
+}
+
+function closePopup(){
+  document.getElementById('popup').style.display='none';
+}
+
+// CONFIRM BAYAR (ANTI-DOUBLE CLICK)
+function confirmBayar(){
+  const btnConfirm = document.getElementById('btnConfirm');
+  let bayar = parseInt(document.getElementById('bayarInput').value) || 0;
+  let total = cart.reduce((a,b)=>a+(b.qty*b.harga),0);
+  if(bayar < total){
+    alert("Uang pembayaran kurang!");
+    return;
+  }
+  if (btnConfirm.disabled) return;
+  btnConfirm.disabled = true;
+  const originalText = btnConfirm.innerText;
+  btnConfirm.innerText = "Menyimpan...";
+  btnConfirm.style.opacity = "0.6";
+  google.script.run
+    .withSuccessHandler(id=>{
+      alert("Transaksi Sukses disimpan! ID: "+id);
+      cart=[];
+      document.getElementById('bayarInput').value='';
+      renderCart();
+      closePopup();
+      btnConfirm.disabled = false;
+      btnConfirm.innerText = originalText;
+      btnConfirm.style.opacity = "1";
+    })
+    .withFailureHandler(err=>{
+      alert("Gagal memproses kasir: " + err.message);
+      btnConfirm.disabled = false;
+      btnConfirm.innerText = originalText;
+      btnConfirm.style.opacity = "1";
+    })
+    .simpanTransaksi({ items: cart, metode: 'cash' });
+}
+
+// ================= LOAD DATA TRANSAKSI =================
+function loadTransaksi() {
+  document.getElementById('dataTransaksi').innerHTML = '<div style="padding:20px">Memuat data transaksi...</div>';
+  google.script.run
+    .withSuccessHandler(function(data){
+      let html = '';
+      if(!data || data.length === 0){
+        html = '<div style="padding:20px">Belum ada transaksi terekam</div>';
+      } else {
+        data.forEach(function(row){
+          html += `
+            <div class="row">
+              <div>${row[0]}</div>
+              <div>${row[1]}</div>
+              <div>${row[2]}</div>
+              <div>${row[3]}</div>
+              <div>Rp${Number(row[5]).toLocaleString('id-ID')}</div>
+            </div>`;
+        });
+      }
+      document.getElementById('dataTransaksi').innerHTML = html;
+    })
+    .getTransaksi();
+}
+
+// ================= PROSES SIMPAN PENGELUARAN (SINKRON & AMAN) =================
+function simpanPengeluaran() {
+  const btnSimpan = document.getElementById('btnSimpanPengeluaran');
+  if (btnSimpan.disabled) return;
+  let kategori = document.getElementById('expKategori').value;
+  let catatan = document.getElementById('expCatatan').value;
+  let nominal = parseInt(document.getElementById('expNominal').value) || 0;
+  if (nominal <= 0) {
+    alert("Masukkan nilai nominal pengeluaran yang valid!");
+    return;
+  }
+  btnSimpan.disabled = true;
+  const originalText = btnSimpan.innerText;
+  btnSimpan.innerText = "Menyimpan...";
+  btnSimpan.style.opacity = "0.6";
+  google.script.run
+    .withSuccessHandler(function(success) {
+      alert("Pengeluaran berhasil disimpan ke database!");
+      document.getElementById('expCatatan').value = '';
+      document.getElementById('expNominal').value = '';
+      loadHistoryPengeluaran();
+      btnSimpan.disabled = false;
+      btnSimpan.innerText = originalText;
+      btnSimpan.style.opacity = "1";
+    })
+    .withFailureHandler(function(err) {
+      alert("Gagal menyimpan pengeluaran: " + err.message);
+      btnSimpan.disabled = false;
+      btnSimpan.innerText = originalText;
+      btnSimpan.style.opacity = "1";
+    })
+    .tambahPengeluaran(kategori, catatan, nominal);
+}
+
+// ================= RENDER TABEL HISTORY PENGELUARAN REAL-TIME =================
+function loadHistoryPengeluaran() {
+  document.getElementById('dataPengeluaran').innerHTML = '<div style="padding:20px">Memuat history pengeluaran...</div>';
+  google.script.run
+    .withSuccessHandler(function(data) {
+      let html = '';
+      if(!data || data.length === 0){
+        html = '<div style="padding:20px">Belum ada data pengeluaran</div>';
+      } else {
+        data.forEach(function(row){
+          html += `
+            <div class="row">
+              <div>${row[0]}</div>
+              <div>${row[1]}</div>
+              <div>${row[2]}</div>
+              <div>${row[3]}</div>
+              <div>Rp${Number(row[4]).toLocaleString('id-ID')}</div>
+            </div>`;
+        });
+      }
+      document.getElementById('dataPengeluaran').innerHTML = html;
+    })
+    .withFailureHandler(function(err) {
+      document.getElementById('dataPengeluaran').innerHTML = '<div style="padding:20px;color:red">Gagal memuat riwayat pengeluaran</div>';
+    })
+    .getHistoryPengeluaranRaw();
+}
+
+// ================= DASHBOARD DASHBOARD & REKAP DIAGRAM TERFILTER =================
+let myChartAI = null;
+
+function loadRekap() {
+  const filterType = document.getElementById('filterWaktuRekap').value;
+  google.script.run.withSuccessHandler(function(rekap) {
+    document.getElementById('totalPemasukan').innerText = "Rp " + rekap.pemasukan.toLocaleString('id-ID');
+    document.getElementById('totalPengeluaran').innerText = "Rp " + rekap.pengeluaran.toLocaleString('id-ID');
+    document.getElementById('totalLaba').innerText = "Rp " + rekap.laba.toLocaleString('id-ID');
+    document.getElementById('totalRugi').innerText = "Rp " + rekap.rugi.toLocaleString('id-ID');
+    renderGrafikAI(rekap.history);
+    loadAIAnalysis(filterType);
+  }).getRekapDetailFiltered(filterType);
+}
+
+function renderGrafikAI(historyData) {
+  const canvasElement = document.getElementById('chartAI');
+  if(!canvasElement) return;
+  const ctx = canvasElement.getContext('2d');
+  const labels = Object.keys(historyData).sort();
+  const dataValues = labels.map(label => historyData[label]);
+  if (myChartAI !== null) {
+    myChartAI.destroy();
+  }
+  myChartAI = new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: labels,
+      datasets: [{
+        label: 'Omset Penjualan (Rp)',
+        data: dataValues,
+        borderColor: '#4e73df',
+        backgroundColor: 'rgba(78, 115, 223, 0.1)',
+        fill: true,
+        tension: 0.3,
+        borderWidth: 2
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { display: true }
+      }
+    }
+  });
+}
+
+function loadAIAnalysis(filterType) {
+  google.script.run.withSuccessHandler(function(res) {
+    document.getElementById('aiStatus').innerText = res.analisis;
+    document.getElementById('aiPrediksi').innerText = "Rp " + res.prediksiBesok.toLocaleString('id-ID');
+  }).getAIAnalysisFiltered(filterType);
+}
+
+// ================= DOWNLOAD DOKUMEN LAPORAN TERFILTER SECARA DINAMIS =================
+function downloadPDF() {
+  const btnPdf = document.getElementById('btnExportPDF');
+  if(btnPdf.disabled) return;
+  const filterType = document.getElementById('filterWaktuRekap').value;
+  btnPdf.disabled = true;
+  const originalText = btnPdf.innerText;
+  btnPdf.innerText = "Mengunduh...";
+  google.script.run
+    .withSuccessHandler(function(base64String) {
+      const blob = b64toBlob(base64String, 'application/pdf');
+      const blobUrl = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = blobUrl;
+      link.download = 'Laporan_Finansial_' + filterType.toUpperCase() + '_' + new Date().toISOString().slice(0,10) + '.pdf';
+      link.click();
+      btnPdf.disabled = false;
+      btnPdf.innerText = originalText;
+    })
+    .withFailureHandler(function(err) {
+      alert("Gagal mengekspor data PDF: " + err.message);
+      btnPdf.disabled = false;
+      btnPdf.innerText = originalText;
+    })
+    .exportPDF(filterType);
+}
+
+function b64toBlob(b64Data, contentType='', sliceSize=512) {
+  const byteCharacters = atob(b64Data);
+  const byteArrays = [];
+  for (let offset = 0; offset < byteCharacters.length; offset += sliceSize) {
+    const slice = byteCharacters.slice(offset, offset + sliceSize);
+    const byteNumbers = new Array(slice.length);
+    for (let i = 0; i < slice.length; i++) {
+      byteNumbers[i] = slice.charCodeAt(i);
+    }
+    const byteArray = new Uint8Array(byteNumbers);
+    byteArrays.push(byteArray);
+  }
+  return new Blob(byteArrays, {type: contentType});
+}
+
+loadProduk();
+</script>
