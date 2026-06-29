@@ -18,11 +18,11 @@ function App() {
 
   // Default settings (updated with correct Discord DM URL)
   const [settings, setSettings] = useState({
-    brand_name:       'Eternal Myth Studio',
-    subtitle:         'Payout Community',
-    whatsapp_number:  '6281234567890',
-    discord_url:      'https://discord.com/users/459376386671509505',
-    tiktok_url:       'https://www.tiktok.com/@eternalmyth'
+    brand_name: 'Eternal Myth Studio',
+    subtitle: 'Payout Community',
+    whatsapp_number: '6281234567890',
+    discord_url: 'https://discord.com/users/459376386671509505',
+    tiktok_url: 'https://www.tiktok.com/@eternalmyth'
   });
 
   // Check Supabase Authentication status
@@ -84,11 +84,14 @@ function App() {
           element={session ? <Navigate to="/admin/dashboard" replace /> : <AdminLogin onLoginSuccess={(sess) => setSession(sess)} />}
         />
 
+// Tambahkan rute ini di bawah rute Admin Login
+        <Route path="/admin" element={<Navigate to="/admin/dashboard" replace />} />
+
         {/* Admin Protected Routes */}
         <Route path="/admin/dashboard" element={<AdminRoute><AdminDashboard /></AdminRoute>} />
-        <Route path="/admin/orders"    element={<AdminRoute><AdminOrders /></AdminRoute>} />
-        <Route path="/admin/staff"     element={<AdminRoute><AdminStaff /></AdminRoute>} />
-        <Route path="/admin/income"    element={<AdminRoute><AdminIncome /></AdminRoute>} />
+        <Route path="/admin/orders" element={<AdminRoute><AdminOrders /></AdminRoute>} />
+        <Route path="/admin/staff" element={<AdminRoute><AdminStaff /></AdminRoute>} />
+        <Route path="/admin/income" element={<AdminRoute><AdminIncome /></AdminRoute>} />
 
         {/* Catch-all */}
         <Route path="*" element={<Navigate to="/" replace />} />
@@ -99,10 +102,10 @@ function App() {
 
 // ── Customer Checkout Flow (Step 1 → Step 2) ─────────────────────
 function CustomerFlow({ settings }) {
-  const [step,               setStep]               = useState(1);
-  const [submitting,         setSubmitting]          = useState(false);
-  const [submitError,        setSubmitError]         = useState('');
-  const [createdTransaction, setCreatedTransaction]  = useState(null);
+  const [step, setStep] = useState(1);
+  const [submitting, setSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState('');
+  const [createdTransaction, setCreatedTransaction] = useState(null);
 
   const handleFormSubmit = async (formData) => {
     setSubmitting(true);
@@ -110,14 +113,14 @@ function CustomerFlow({ settings }) {
 
     try {
       const { data, error } = await supabase.rpc('create_order', {
-        p_roblox_username:    formData.username,
-        p_display_name:       formData.displayName,
-        p_robux_amount:       formData.robuxAmount,
+        p_roblox_username: formData.username,
+        p_display_name: formData.displayName,
+        p_robux_amount: formData.robuxAmount,
         p_verification_status: formData.ktpVerified,
-        p_notes:              formData.notes,
-        p_chat_channel:       'whatsapp', // default, channel selected in Step 2
+        p_notes: formData.notes,
+        p_chat_channel: 'whatsapp', // default, channel selected in Step 2
         p_payment_proof_path: formData.paymentProofPath,
-        p_payment_proof_url:  null         // private bucket — no public URL
+        p_payment_proof_url: null         // private bucket — no public URL
       });
 
       if (error) throw error;
@@ -173,8 +176,8 @@ function CustomerFlow({ settings }) {
 
       <footer className="mt-16 text-center text-xs text-slate-600 space-y-3 border-t border-obsidian-border/30 pt-6">
         <div className="flex justify-center gap-6 font-semibold">
-          <Link to="/"             className="hover:text-gold-primary transition-colors">Halaman Utama</Link>
-          <Link to="/admin/login"  className="hover:text-gold-primary transition-colors">Portal Admin</Link>
+          <Link to="/" className="hover:text-gold-primary transition-colors">Halaman Utama</Link>
+          <Link to="/admin/login" className="hover:text-gold-primary transition-colors">Portal Admin</Link>
         </div>
         <p>Eternal Myth Studio. Dibuat dengan dedikasi untuk komunitas Roblox Indonesia.</p>
       </footer>
