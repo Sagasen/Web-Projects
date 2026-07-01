@@ -1,49 +1,119 @@
-# Web Projects
+# 🌐 Web Projects
 
-Repository ini berisi kumpulan project web yang saya buat untuk pembelajaran, portofolio, dan kebutuhan magang.
+Repositori ini merupakan kumpulan berbagai project berbasis web yang dikembangkan selama proses pembelajaran, eksplorasi teknologi, serta pelaksanaan kegiatan magang.
 
-## 📌 Daftar Project
-
-### 2. Workshop Service
-
-Aplikasi web manajemen servis bengkel berbasis Google Apps Script dan Google Sheets.
-
-**Fitur utama:**
-- Login admin dan customer
-- Dashboard admin
-- Dashboard customer
-- Manajemen data pelanggan
-- Manajemen kendaraan
-- Input data servis
-- Riwayat servis customer
-- Detail invoice servis
-- Export invoice ke PDF
-- Laporan servis melalui WhatsApp
-
-**Teknologi:**
-- Google Apps Script
-- HTML
-- CSS
-- JavaScript
-- Google Sheets
+Setiap folder di dalam repositori merupakan project yang berdiri sendiri (standalone) dengan tujuan, fitur, dan implementasi yang berbeda. Repository ini digunakan sebagai media dokumentasi sekaligus arsip hasil pengembangan project.
 
 ---
-### 3. Reseller Oriflame
 
-Project website untuk kebutuhan promosi, katalog, atau landing page reseller Oriflame.
+## 📖 Tentang Repository
 
-**Fitur utama:**
-- Tampilan halaman produk
-- Informasi reseller
-- Desain web sederhana dan responsif
+Repository ini dibuat untuk:
 
-**Teknologi:**
-- HTML
-- CSS
-- JavaScript
+* Mendokumentasikan seluruh project web yang telah dikembangkan.
+* Menyimpan hasil eksperimen dan implementasi berbagai teknologi web.
+* Menjadi referensi dalam proses pembelajaran maupun pengembangan project selanjutnya.
+* Mendukung dokumentasi kegiatan magang dan penyusunan laporan.
+
+---
+
+## 📂 Struktur Repository
+
+```text
+Web-Projects/
+│
+├── Project-1/
+│   ├── index.html
+│   ├── style.css
+│   └── script.js
+│
+├── Project-2/
+│   ├── ...
+│
+├── Project-3/
+│   ├── ...
+│
+└── README.md
+```
+
+Setiap folder berisi satu project yang dapat dijalankan secara terpisah.
+
+---
+
+## 🚀 Daftar Project
+
+| No | Nama Project         | Deskripsi                        | Status |
+| -: | -------------------- | -------------------------------- | :----: |
+|  1 | Kasir                | Sistem Kasir UMKM                |   ✅  |
+|  2 | Workshop Service     | Manajemen Servis Bengkel         |   ✅  |
+|  3 | Reseller Oriflame    | Catalog untuk reseller Oriflame  |   ✅  |
+|  4 | Eternal Myth Studio  | Top-Up In-game Currency (Roblox) |   ✅  |
+|  5 | Tarasari booking     | Booking tempat Sanggar Tarasari  |   ✅  |
 
 
+---
+
+## 🛠 Teknologi yang Digunakan
+
+Beberapa teknologi yang digunakan dalam repository ini antara lain:
+
+* HTML5
+* CSS3
+* JavaScript (ES6+)
+* Bootstrap
+* Tailwind CSS
+* PHP
+* MySQL
+* Node.js
+* REST API
+* Teknologi web lainnya sesuai kebutuhan masing-masing project.
+
+---
+
+## ▶ Cara Menjalankan Project
+
+1. Clone repository.
+
+```bash
+git clone https://github.com/Sagasen/Web-Projects.git
+```
+
+2. Masuk ke repository.
+
+```bash
+cd Web-Projects
+```
+
+3. Pilih folder project yang ingin dijalankan.
+
+4. Buka file `index.html` menggunakan browser atau jalankan menggunakan local server apabila project memerlukannya.
+
+---
+
+## 🎯 Tujuan Pengembangan
+
+Repository ini dikembangkan sebagai:
+
+* Dokumentasi hasil pembelajaran.
+* Dokumentasi kegiatan magang.
+* Media eksperimen teknologi web.
+* Tempat penyimpanan project yang telah selesai maupun yang masih dalam tahap pengembangan.
+
+---
+
+## 📈 Pengembangan Selanjutnya
+
+Repository ini akan terus diperbarui dengan penambahan project baru, penyempurnaan fitur, serta peningkatan kualitas kode seiring bertambahnya pengalaman dan kebutuhan pengembangan.
+
+---
+
+## 🤝 Kontribusi
+
+Repository ini dibuat untuk keperluan dokumentasi pribadi dan kegiatan magang. Apabila terdapat masukan atau saran, kontribusi sangat diterima melalui Issue maupun Pull Request.
+
+---
 
 ## 👨‍💻 Developer
 
-Dibuat oleh **Silvia**.
+Dibuat oleh **Silvia 〖Saga〗**.
+
