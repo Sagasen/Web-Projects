@@ -3,15 +3,16 @@ import { getFirestore } from 'firebase/firestore'
 import { getAuth } from 'firebase/auth'
 
 const firebaseConfig = {
-  apiKey: 'AIzaSyBJkQk9U0klepRvRLzmKtvvgr7oeE3hRGQ',
-  authDomain: 'oriflame-catalog-d7ad5.firebaseapp.com',
-  projectId: 'oriflame-catalog-d7ad5',
-  storageBucket: 'oriflame-catalog-d7ad5.firebasestorage.app',
-  messagingSenderId: '294547780964',
-  appId: '1:294547780964:web:103ba8351b78ed4e61f671',
-  measurementId: 'G-KLMY35FCG9',
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+  appId: import.meta.env.VITE_FIREBASE_APP_ID,
+  measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID,
 }
 
 const app = initializeApp(firebaseConfig)
+
 export const db = getFirestore(app)
 export const auth = getAuth(app)
