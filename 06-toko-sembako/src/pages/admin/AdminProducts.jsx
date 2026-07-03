@@ -21,6 +21,7 @@ export const AdminProducts = () => {
   const [formDesc, setFormDesc] = useState('')
   const [formImage, setFormImage] = useState('')
   const [formVariants, setFormVariants] = useState([])
+  const [deletedVariantIds, setDeletedVariantIds] = useState([])
 
   // Stock Modal State
   const [showStockModal, setShowStockModal] = useState(false)
@@ -94,6 +95,7 @@ export const AdminProducts = () => {
 
   // --- Product Modal Handlers ---
   const handleOpenProductModal = (prod = null) => {
+    setDeletedVariantIds([])
     if (prod) {
       setEditProductId(prod.id)
       setFormName(prod.name)
@@ -168,6 +170,21 @@ export const AdminProducts = () => {
   }
 
   const handleRemoveVariantRow = (index) => {
+    const variant = formVariants[index]
+
+    if (formVariants.length <= 1) {
+      showToast('Produk harus punya minimal 1 varian', 'error')
+      return
+    }
+
+    if (variant.id) {
+      const confirmDelete = window.confirm(
+        `Hapus varian "${variant.variant_name}"? Varian yang sudah dihapus tidak bisa dikembalikan.`
+      )
+      if (!confirmDelete) return
+      setDeletedVariantIds(prev => [...prev, variant.id])
+    }
+
     setFormVariants(prev => prev.filter((_, idx) => idx !== index))
   }
 
@@ -257,6 +274,25 @@ export const AdminProducts = () => {
             })
 
           if (error) throw error
+        }
+      }
+
+      // Hapus varian yang ditandai untuk dihapus
+      if (deletedVariantIds.length > 0) {
+        const { error: deleteError } = await supabase
+          .from('product_variants')
+          .delete()
+          .in('id', deletedVariantIds)
+
+        if (deleteError) {
+          // Kemungkinan varian ini pernah dipakai di pesanan lama (foreign key),
+          // jadi tidak bisa dihapus permanen — tetap lanjutkan simpan produk,
+          // tapi beri tahu admin supaya set stok ke 0 saja sebagai alternatif.
+          console.error(deleteError)
+          showToast(
+            'Sebagian varian tidak bisa dihapus karena sudah pernah dipesan pelanggan. Set stoknya ke 0 saja sebagai gantinya.',
+            'error'
+          )
         }
       }
 
@@ -663,7 +699,6 @@ export const AdminProducts = () => {
                       className="btn btn-danger btn-sm"
                       onClick={() => handleRemoveVariantRow(idx)}
                       title="Hapus varian"
-                      disabled={!!v.id} // Prevent deleting already saved variants from modal directly (better logic for DB integrity)
                     >
                       ✕
                     </button>
