@@ -30,6 +30,9 @@ export const AdminProducts = () => {
   const [stockReason, setStockReason] = useState('')
   const [stockSubmitting, setStockSubmitting] = useState(false)
 
+  // Image Upload State
+  const [uploadingImage, setUploadingImage] = useState(false)
+
   useEffect(() => {
     fetchCategories()
     fetchProductsAndVariants()
@@ -118,6 +121,43 @@ export const AdminProducts = () => {
       ])
     }
     setShowProductModal(true)
+  }
+
+  const handleImageFileChange = async (e) => {
+    const file = e.target.files[0]
+    if (!file) return
+
+    if (!file.type.startsWith('image/')) {
+      showToast('File yang dipilih bukan gambar', 'error')
+      return
+    }
+
+    if (file.size > 2 * 1024 * 1024) {
+      showToast('Ukuran gambar maksimal 2MB', 'error')
+      return
+    }
+
+    setUploadingImage(true)
+    try {
+      const fileExt = file.name.split('.').pop()
+      const fileName = `product-${Date.now()}.${fileExt}`
+
+      const { error: uploadError } = await supabase.storage
+        .from('product-images')
+        .upload(fileName, file)
+
+      if (uploadError) throw uploadError
+
+      const { data } = supabase.storage.from('product-images').getPublicUrl(fileName)
+      setFormImage(data.publicUrl)
+      showToast('Gambar berhasil diunggah!', 'success')
+    } catch (err) {
+      console.error(err)
+      showToast('Gagal mengunggah gambar: ' + err.message, 'error')
+    } finally {
+      setUploadingImage(false)
+      e.target.value = '' // reset input so the same file can be re-selected if needed
+    }
   }
 
   const handleAddVariantRow = () => {
@@ -497,7 +537,53 @@ export const AdminProducts = () => {
               </div>
 
               <div className="form-group">
-                <label className="form-label">URL Gambar</label>
+                <label className="form-label">Foto Produk</label>
+
+                {formImage && (
+                  <div style={{ marginBottom: 'var(--space-2)' }}>
+                    <img
+                      src={formImage}
+                      alt="Preview produk"
+                      style={{
+                        width: '96px',
+                        height: '96px',
+                        objectFit: 'cover',
+                        borderRadius: 'var(--radius-md, 8px)',
+                        border: '1px solid var(--gray-200)'
+                      }}
+                      onError={(e) => { e.target.style.display = 'none' }}
+                    />
+                  </div>
+                )}
+
+                <div className="flex items-center gap-2" style={{ marginBottom: 'var(--space-2)' }}>
+                  <label
+                    className="btn btn-ghost btn-sm"
+                    style={{ cursor: uploadingImage ? 'not-allowed' : 'pointer', opacity: uploadingImage ? 0.6 : 1 }}
+                  >
+                    {uploadingImage ? 'Mengunggah...' : '📁 Pilih Foto dari Perangkat'}
+                    <input
+                      type="file"
+                      accept="image/*"
+                      onChange={handleImageFileChange}
+                      disabled={uploadingImage}
+                      style={{ display: 'none' }}
+                    />
+                  </label>
+                  {formImage && (
+                    <button
+                      type="button"
+                      className="btn btn-ghost btn-sm"
+                      onClick={() => setFormImage('')}
+                    >
+                      Hapus Foto
+                    </button>
+                  )}
+                </div>
+
+                <label className="form-label" style={{ fontSize: 'var(--text-xs)', color: 'var(--gray-500)' }}>
+                  atau tempel link gambar (mis. dari Google Gambar)
+                </label>
                 <input
                   className="form-control"
                   placeholder="https://... (kosongkan jika pakai emoji)"
