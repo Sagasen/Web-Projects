@@ -12,6 +12,7 @@ export const AdminProducts = () => {
   const [variants, setVariants] = useState([])
   const [loading, setLoading] = useState(true)
   const [searchQuery, setSearchQuery] = useState('')
+  const [stockSearch, setStockSearch] = useState('')
 
   // Product Modal State
   const [showProductModal, setShowProductModal] = useState(false)
@@ -349,6 +350,19 @@ export const AdminProducts = () => {
       (p.category && p.category.toLowerCase().includes(searchQuery.toLowerCase()))
   )
 
+  const sortedFilteredVariants = [...variants]
+    .sort((a, b) =>
+      (a.products?.name || '').toLowerCase().localeCompare((b.products?.name || '').toLowerCase(), 'id')
+    )
+    .filter(v => {
+      if (!stockSearch.trim()) return true
+      const q = stockSearch.toLowerCase()
+      return (
+        (v.products?.name || '').toLowerCase().includes(q) ||
+        v.variant_name.toLowerCase().includes(q)
+      )
+    })
+
   return (
     <div>
       {/* Tabs */}
@@ -459,11 +473,18 @@ export const AdminProducts = () => {
           </div>
         </div>
       ) : (
-        /* Stock Tab */
         <div id="stock-tab" className="tab-panel active">
           <div className="table-card">
-            <div className="table-header">
-              <span className="table-title">Semua Varian & Stok</span>
+            <div className="table-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '8px' }}>
+              <span className="table-title">Semua Varian & Stok ({sortedFilteredVariants.length})</span>
+              <input
+                type="text"
+                className="form-control"
+                placeholder="🔍 Cari produk atau varian..."
+                value={stockSearch}
+                onChange={(e) => setStockSearch(e.target.value)}
+                style={{ maxWidth: '260px', margin: 0 }}
+              />
             </div>
             <div className="table-wrap">
               <table>
@@ -478,8 +499,8 @@ export const AdminProducts = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {variants.length > 0 ? (
-                    variants.map((v) => {
+                  {sortedFilteredVariants.length > 0 ? (
+                    sortedFilteredVariants.map((v) => {
                       const isLow = v.stock <= v.min_stock
                       return (
                         <tr key={v.id}>
@@ -510,7 +531,7 @@ export const AdminProducts = () => {
                   ) : (
                     <tr>
                       <td colSpan="6" className="text-center text-gray">
-                        Belum ada varian
+                        {stockSearch ? 'Produk tidak ditemukan' : 'Belum ada varian'}
                       </td>
                     </tr>
                   )}
@@ -670,30 +691,45 @@ export const AdminProducts = () => {
                       className="form-control"
                       type="number"
                       placeholder="Harga Beli"
-                      value={v.cost_price}
-                      onChange={(e) => handleVariantChange(idx, 'cost_price', Number(e.target.value))}
+                      min="0"
+                      value={v.cost_price === 0 ? '' : v.cost_price}
+                      onChange={(e) => {
+                        const val = e.target.value === '' ? 0 : parseInt(e.target.value, 10)
+                        handleVariantChange(idx, 'cost_price', isNaN(val) ? 0 : val)
+                      }}
                     />
                     <input
                       className="form-control"
                       type="number"
                       placeholder="Harga Jual"
-                      value={v.sell_price}
-                      onChange={(e) => handleVariantChange(idx, 'sell_price', Number(e.target.value))}
+                      min="0"
+                      value={v.sell_price === 0 ? '' : v.sell_price}
+                      onChange={(e) => {
+                        const val = e.target.value === '' ? 0 : parseInt(e.target.value, 10)
+                        handleVariantChange(idx, 'sell_price', isNaN(val) ? 0 : val)
+                      }}
                     />
                     <input
                       className="form-control"
                       type="number"
                       placeholder="Stok"
-                      value={v.stock}
-                      onChange={(e) => handleVariantChange(idx, 'stock', Number(e.target.value))}
-                      disabled={!!v.id} // Don't allow changing stock directly on edit, use Restock button instead to log properly
+                      min="0"
+                      value={v.stock === 0 ? '' : v.stock}
+                      onChange={(e) => {
+                        const val = e.target.value === '' ? 0 : parseInt(e.target.value, 10)
+                        handleVariantChange(idx, 'stock', isNaN(val) ? 0 : val)
+                      }}
                     />
                     <input
                       className="form-control"
                       type="number"
                       placeholder="Min"
-                      value={v.min_stock}
-                      onChange={(e) => handleVariantChange(idx, 'min_stock', Number(e.target.value))}
+                      min="0"
+                      value={v.min_stock === 0 ? '' : v.min_stock}
+                      onChange={(e) => {
+                        const val = e.target.value === '' ? 0 : parseInt(e.target.value, 10)
+                        handleVariantChange(idx, 'min_stock', isNaN(val) ? 0 : val)
+                      }}
                     />
                     <button
                       className="btn btn-danger btn-sm"

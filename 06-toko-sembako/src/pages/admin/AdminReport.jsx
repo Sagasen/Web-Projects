@@ -195,7 +195,7 @@ export const AdminReport = () => {
               }}
             >
               {dailyData.map(d => {
-                const heightPercentage = Math.max((d.amount / maxDailyRevenue) * 100, 2)
+                const heightPx = Math.max((d.amount / maxDailyRevenue) * 200, d.amount > 0 ? 4 : 0)
                 return (
                   <div
                     key={d.key}
@@ -204,7 +204,10 @@ export const AdminReport = () => {
                       display: 'flex',
                       flexDirection: 'column',
                       alignItems: 'center',
-                      minWidth: '36px'
+                      justifyContent: 'flex-end',
+                      height: '100%',
+                      minWidth: '36px',
+                      paddingBottom: '4px'
                     }}
                   >
                     <div
@@ -216,17 +219,18 @@ export const AdminReport = () => {
                         visibility: d.amount > 0 ? 'visible' : 'hidden'
                       }}
                     >
-                      {d.amount > 1000000 
-                        ? `${(d.amount / 1000000).toFixed(1)}jt` 
-                        : d.amount > 1000 ? `${Math.round(d.amount/1000)}k` : d.amount}
+                      {d.amount > 1000000
+                        ? `${(d.amount / 1000000).toFixed(1)}jt`
+                        : d.amount > 1000 ? `${Math.round(d.amount / 1000)}k` : d.amount}
                     </div>
                     <div
                       style={{
                         width: '100%',
-                        height: `${heightPercentage}%`,
+                        height: `${heightPx}px`,
                         background: 'linear-gradient(to top, var(--green-600), var(--green-400))',
                         borderRadius: '4px 4px 0 0',
-                        transition: 'height 0.4s ease'
+                        transition: 'height 0.4s ease',
+                        minHeight: d.amount > 0 ? '4px' : '0'
                       }}
                       title={`${d.key}: ${formatRupiah(d.amount)}`}
                     ></div>

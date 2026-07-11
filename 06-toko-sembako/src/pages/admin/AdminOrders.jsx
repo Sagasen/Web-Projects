@@ -28,6 +28,13 @@ const statusBadge = (status) => {
   return <span className={`status-badge ${s.cls}`}>{s.label}</span>
 }
 
+const toWaLink = (phone) => {
+  if (!phone) return null
+  const digits = phone.replace(/\D/g, '')
+  const international = digits.startsWith('0') ? '62' + digits.slice(1) : digits
+  return `https://wa.me/${international}`
+}
+
 export const AdminOrders = () => {
   const { showToast } = useToast()
   const [orders, setOrders] = useState([])
@@ -183,6 +190,19 @@ export const AdminOrders = () => {
                         <div style={{ fontSize: 'var(--text-xs)', color: 'var(--gray-500)' }}>
                           {o.customer_phone || '-'}
                         </div>
+                        <div
+                          style={{
+                            fontSize: 'var(--text-xs)',
+                            color: 'var(--gray-400)',
+                            maxWidth: '180px',
+                            overflow: 'hidden',
+                            textOverflow: 'ellipsis',
+                            whiteSpace: 'nowrap'
+                          }}
+                          title={o.address || ''}
+                        >
+                          📍 {o.address || '-'}
+                        </div>
                       </td>
                       <td style={{ fontWeight: 700, color: 'var(--primary-dark)' }}>
                         {formatRupiah(o.subtotal)}
@@ -232,7 +252,20 @@ export const AdminOrders = () => {
             <div className="modal-body">
               {/* Customer Info */}
               <div style={{ marginBottom: 'var(--space-4)', fontSize: 'var(--text-sm)', color: 'var(--gray-700)' }}>
-                <p>👤 <strong>Pelanggan:</strong> {selectedOrder.customer_name} ({selectedOrder.customer_phone || '-'})</p>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 'var(--space-2)' }}>
+                  <p>👤 <strong>Pelanggan:</strong> {selectedOrder.customer_name} ({selectedOrder.customer_phone || '-'})</p>
+                  {selectedOrder.customer_phone && (
+                    <a
+                      href={toWaLink(selectedOrder.customer_phone)}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="btn btn-primary btn-sm"
+                      style={{ whiteSpace: 'nowrap', flexShrink: 0 }}
+                    >
+                      💬 Chat via WA
+                    </a>
+                  )}
+                </div>
                 <p>🏠 <strong>Alamat:</strong> {selectedOrder.address || '-'}</p>
                 <p>🚚 <strong>Metode Pengiriman:</strong> {selectedOrder.delivery_method === 'diantar' ? 'Diantar ke rumah' : 'Ambil sendiri di toko'}</p>
                 <p>💳 <strong>Metode Pembayaran:</strong> {selectedOrder.payment_method === 'tunai' ? 'Tunai/COD' : 'QRIS/Transfer'}</p>

@@ -134,7 +134,7 @@ export const AdminKasir = () => {
         p_note: 'Transaksi Kasir Offline',
         p_status: 'Selesai',
         p_subtotal: total,
-        p_items: JSON.stringify(items)
+        p_items: items
       })
 
       if (error) throw error

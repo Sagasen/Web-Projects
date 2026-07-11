@@ -321,6 +321,38 @@ Mohon ditunggu konfirmasinya untuk total ongkir dan kesediaan barang ya kak! ðŸ™
                 </p>
 
                 <div
+                  style={{
+                    background: 'var(--green-50)',
+                    border: '1px dashed var(--primary)',
+                    borderRadius: 'var(--radius, 12px)',
+                    padding: 'var(--space-3)',
+                    margin: '16px 0',
+                    textAlign: 'center'
+                  }}
+                >
+                  <p style={{ fontWeight: 700, color: 'var(--primary-dark)', marginBottom: '6px', fontSize: 'var(--text-sm)' }}>
+                    Atau Transfer Manual ke Rekening
+                  </p>
+                  <p style={{ fontSize: 'var(--text-lg)', fontWeight: 800, color: 'var(--gray-800)', margin: '4px 0' }}>
+                    BNI &middot; 0244501044
+                  </p>
+                  <p style={{ fontSize: 'var(--text-xs)', color: 'var(--gray-500)' }}>
+                    a.n. Toko Sembako Mbah Win
+                  </p>
+                  <button
+                    type="button"
+                    className="btn btn-ghost btn-sm"
+                    style={{ marginTop: '8px' }}
+                    onClick={() => {
+                      navigator.clipboard.writeText('0244501044')
+                      showToast('Nomor rekening disalin!', 'success')
+                    }}
+                  >
+                    ðŸ“‹ Salin Nomor Rekening
+                  </button>
+                </div>
+
+                <div
                   className={`upload-area ${previewUrl ? 'uploaded' : ''}`}
                   id="upload-area"
                   onClick={() => document.getElementById('proof-input').click()}
