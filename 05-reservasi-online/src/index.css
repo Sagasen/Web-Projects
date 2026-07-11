@@ -1,0 +1,29 @@
+/* src/index.css */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Sage green — warna primary Tarasari */
+    --color-sage-50 : #f2f7f2;
+    --color-sage-100: #e0ede0;
+    --color-sage-200: #c2dbc3;
+    --color-sage-300: #9dc29e;
+    --color-sage-400: #74a376;
+    --color-sage-500: #528854;
+    --color-sage-600: #3d6e3f;   /* primary utama */
+    --color-sage-700: #315733;
+    --color-sage-800: #28452a;
+    --color-sage-900: #1e3320;
+
+    /* Cream background */
+    --color-cream: #faf9f6;
+  }
+
+  body {
+    background-color: var(--color-cream);
+    color: #1f2937;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  }
+}
