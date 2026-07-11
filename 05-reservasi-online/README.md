@@ -1,6 +1,6 @@
-# Tarasari Booking App
+# Sistem Manajemen Reservasi Online Berbasis AI
 
-Aplikasi web booking tempat senam untuk **Tarasari** — dibangun dengan React + Vite + Supabase.
+Aplikasi web Reservasi Online — dibangun dengan React + Vite + Supabase.
 
 ---
 
@@ -37,7 +37,7 @@ Aplikasi web booking tempat senam untuk **Tarasari** — dibangun dengan React +
 
 ```bash
 git clone <repo-url>
-cd tarasari-booking
+cd reservasi-online
 npm install
 ```
 
@@ -94,7 +94,7 @@ npm run dev
 ## Struktur File (yang sudah dibuat)
 
 ```
-tarasari-booking/
+reservasi-online/
 ├── supabase/
 │   └── migrations/
 │       └── 001_init.sql              ← ⭐ jalankan ini di Supabase SQL Editor
