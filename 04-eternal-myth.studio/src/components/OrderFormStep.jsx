@@ -4,23 +4,23 @@ import supabase, { isSupabaseConfigured } from '../lib/supabase';
 import { formatCurrency } from '../lib/utils';
 
 export default function OrderFormStep({ onSubmit }) {
-  const [username,     setUsername]     = useState('');
-  const [displayName,  setDisplayName]  = useState('');
-  const [robuxAmount,  setRobuxAmount]  = useState(1000);
-  const [ktpVerified,  setKtpVerified]  = useState('Belum');
-  const [notes,        setNotes]        = useState('');
+  const [username, setUsername] = useState('');
+  const [displayName, setDisplayName] = useState('');
+  const [robuxAmount, setRobuxAmount] = useState('');
+  const [ktpVerified, setKtpVerified] = useState('Belum');
+  const [notes, setNotes] = useState('');
 
   // Pricing
-  const [quote,        setQuote]        = useState(null);
+  const [quote, setQuote] = useState(null);
   const [loadingQuote, setLoadingQuote] = useState(false);
-  const [quoteError,   setQuoteError]   = useState(null);
+  const [quoteError, setQuoteError] = useState(null);
 
   // Upload
-  const [uploading,      setUploading]      = useState(false);
+  const [uploading, setUploading] = useState(false);
   const [uploadProgress, setUploadProgress] = useState(0);
-  const [uploadedUrl,    setUploadedUrl]    = useState('');
-  const [uploadedPath,   setUploadedPath]   = useState('');
-  const [uploadError,    setUploadError]    = useState('');
+  const [uploadedUrl, setUploadedUrl] = useState('');
+  const [uploadedPath, setUploadedPath] = useState('');
+  const [uploadError, setUploadError] = useState('');
 
   // ── Fetch Pricing Quote ────────────────────────────────────────
   useEffect(() => {
@@ -37,7 +37,7 @@ export default function OrderFormStep({ onSubmit }) {
       try {
         const { data, error } = await supabase.rpc('get_order_quote', {
           p_roblox_username: username.trim(),
-          p_robux_amount:    parsedRobux
+          p_robux_amount: parsedRobux
         });
 
         if (error) throw error;
@@ -46,9 +46,9 @@ export default function OrderFormStep({ onSubmit }) {
           const q = Array.isArray(data) ? data[0] : data;
           if (q) {
             setQuote({
-              category:       q.category,
+              category: q.category,
               price_per_robux: q.price_per_robux,
-              total_price:    q.total_price
+              total_price: q.total_price
             });
           } else {
             setQuote(null);
@@ -102,8 +102,8 @@ export default function OrderFormStep({ onSubmit }) {
           .from('payment-proofs')
           .upload(filePath, selectedFile, {
             cacheControl: '3600',
-            upsert:       false,
-            contentType:  selectedFile.type
+            upsert: false,
+            contentType: selectedFile.type
           });
 
         if (uploadErr) {
@@ -146,7 +146,7 @@ export default function OrderFormStep({ onSubmit }) {
       ktpVerified,
       notes,
       paymentProofPath: uploadedPath,
-      paymentProofUrl:  null // private bucket
+      paymentProofUrl: null // private bucket
     });
   };
 
@@ -154,12 +154,12 @@ export default function OrderFormStep({ onSubmit }) {
   const isQuoteValid =
     quote &&
     typeof quote.price_per_robux === 'number' && quote.price_per_robux > 0 &&
-    typeof quote.total_price     === 'number' && quote.total_price > 0;
+    typeof quote.total_price === 'number' && quote.total_price > 0;
 
   const isFormValid =
-    username.trim()  !== '' &&
-    displayName.trim()!== '' &&
-    parseInt(robuxAmount) > 0 &&
+    username.trim() !== '' &&
+    displayName.trim() !== '' &&
+    robuxAmount !== '' && parseInt(robuxAmount) > 0 &&
     ktpVerified !== '' &&
     uploadedPath !== '' &&
     isQuoteValid &&
@@ -234,7 +234,13 @@ export default function OrderFormStep({ onSubmit }) {
             step="100"
             required
             value={robuxAmount}
-            onChange={(e) => setRobuxAmount(Math.max(0, parseInt(e.target.value) || 0))}
+            onChange={(e) => {
+              const val = e.target.value;
+              // Izinkan kosong (saat user hapus semua), atau angka positif tanpa leading zero
+              if (val === '' || (/^\d+$/.test(val) && parseInt(val) > 0)) {
+                setRobuxAmount(val === '' ? '' : parseInt(val).toString());
+              }
+            }}
             className="block w-full px-4 py-3 bg-transparent text-slate-100 focus:outline-none text-center font-bold text-lg [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
           />
           <span className="absolute right-4 top-1/2 -translate-y-1/2 text-xs font-semibold text-slate-500 pointer-events-none">Robux</span>
@@ -296,11 +302,10 @@ export default function OrderFormStep({ onSubmit }) {
             return (
               <label
                 key={opt}
-                className={`flex-1 flex items-center justify-between p-3.5 rounded-lg border transition-all duration-300 cursor-pointer ${
-                  isSelected
+                className={`flex-1 flex items-center justify-between p-3.5 rounded-lg border transition-all duration-300 cursor-pointer ${isSelected
                     ? 'bg-gold-primary/10 border-gold-primary text-gold-light'
                     : 'bg-obsidian-950/40 border-obsidian-border text-slate-400 hover:border-gold-dark/40 hover:text-slate-300'
-                }`}
+                  }`}
               >
                 <div className="flex items-center gap-2">
                   <Shield className={`w-4 h-4 ${isSelected ? 'text-gold-primary' : 'text-slate-500'}`} />
@@ -353,15 +358,15 @@ export default function OrderFormStep({ onSubmit }) {
             />
             {/* Fallback SVG QR */}
             <svg className="w-full h-full select-none" style={{ display: 'none' }} viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-              <rect x="0"  y="0"  width="25" height="25" fill="#0a0a0c" />
-              <rect x="3"  y="3"  width="19" height="19" fill="#ffffff" />
-              <rect x="6"  y="6"  width="13" height="13" fill="#d4af37" />
-              <rect x="75" y="0"  width="25" height="25" fill="#0a0a0c" />
-              <rect x="78" y="3"  width="19" height="19" fill="#ffffff" />
-              <rect x="81" y="6"  width="13" height="13" fill="#d4af37" />
-              <rect x="0"  y="75" width="25" height="25" fill="#0a0a0c" />
-              <rect x="3"  y="78" width="19" height="19" fill="#ffffff" />
-              <rect x="6"  y="81" width="13" height="13" fill="#d4af37" />
+              <rect x="0" y="0" width="25" height="25" fill="#0a0a0c" />
+              <rect x="3" y="3" width="19" height="19" fill="#ffffff" />
+              <rect x="6" y="6" width="13" height="13" fill="#d4af37" />
+              <rect x="75" y="0" width="25" height="25" fill="#0a0a0c" />
+              <rect x="78" y="3" width="19" height="19" fill="#ffffff" />
+              <rect x="81" y="6" width="13" height="13" fill="#d4af37" />
+              <rect x="0" y="75" width="25" height="25" fill="#0a0a0c" />
+              <rect x="3" y="78" width="19" height="19" fill="#ffffff" />
+              <rect x="6" y="81" width="13" height="13" fill="#d4af37" />
               <path d="M 30,5 H 40 V 10 H 30 Z M 45,0 H 55 V 5 H 45 Z M 60,5 H 70 V 15 H 60 Z" fill="#0a0a0c" />
               <path d="M 35,20 H 45 V 30 H 35 Z M 50,15 H 65 V 20 H 50 Z M 70,20 H 75 V 35 H 70 Z" fill="#7f1d1d" />
               <rect x="38" y="38" width="24" height="24" rx="4" fill="#0a0a0c" />
@@ -441,11 +446,10 @@ export default function OrderFormStep({ onSubmit }) {
         <button
           type="submit"
           disabled={!isFormValid || loadingQuote || uploading}
-          className={`w-full py-4 rounded-xl text-center text-sm font-bold tracking-widest uppercase transition-all duration-300 ${
-            isFormValid && !uploading
+          className={`w-full py-4 rounded-xl text-center text-sm font-bold tracking-widest uppercase transition-all duration-300 ${isFormValid && !uploading
               ? 'btn-premium-gold cursor-pointer shadow-[0_0_15px_rgba(212,175,55,0.25)]'
               : 'bg-slate-800 border border-slate-700/50 text-slate-500 cursor-not-allowed opacity-50'
-          }`}
+            }`}
         >
           {loadingQuote ? (
             <span className="flex items-center justify-center gap-2">
