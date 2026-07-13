@@ -217,4 +217,16 @@ User akses /admin/*
 - [ ] Reset password via email
 - [ ] Notifikasi WhatsApp/email saat status berubah
 
+## 🖼️ Screenshots
 
+### Halaman Utama
+
+<img src="images/Halaman_Utama.png" width="900">
+
+### Login Admin
+
+<img src="images/Login_Admin.png" width="900">
+
+### Dashboard Admin
+
+<img src="images/Dashboard_Admin.png" width="900">
