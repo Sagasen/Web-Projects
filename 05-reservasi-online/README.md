@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <div align="center">
 
 # 📅 BookSpace
@@ -11,6 +12,11 @@
 [![Vercel](https://img.shields.io/badge/Deploy-Vercel-black?style=for-the-badge&logo=vercel)](https://vercel.com)
 
 </div>
+=======
+# Sistem Manajemen Reservasi Online Berbasis AI
+
+Aplikasi web Reservasi Online Berbasis AI — dibangun dengan React + Vite + Supabase.
+>>>>>>> 700ba1f808cb9e46055e8dc1d67f4b453d3404be
 
 ---
 
@@ -79,6 +85,11 @@ cd Web-Projects/05-reservasi-online
 ### 2. Install Dependencies
 
 ```bash
+<<<<<<< HEAD
+=======
+git clone <repo-url>
+cd reservasi-online
+>>>>>>> 700ba1f808cb9e46055e8dc1d67f4b453d3404be
 npm install
 ```
 
@@ -183,7 +194,15 @@ git push origin main
 ## 📁 Struktur Project
 
 ```
+<<<<<<< HEAD
 05-reservasi-online/
+=======
+reservasi-online/
+├── supabase/
+│   └── migrations/
+│       └── 001_init.sql              ← ⭐ jalankan ini di Supabase SQL Editor
+│
+>>>>>>> 700ba1f808cb9e46055e8dc1d67f4b453d3404be
 ├── src/
 │   ├── components/
 │   │   └── layout/
@@ -248,4 +267,55 @@ git push origin main
 
 [![Live Demo](https://img.shields.io/badge/🚀_Live_Demo-reservasi--online.vercel.app-success?style=flat-square)](https://reservasi-online.vercel.app)
 
+<<<<<<< HEAD
 </div>
+=======
+---
+
+## Catatan Developer
+
+- Validasi bentrok jam **wajib double-check** di database (exclusion constraint di `001_init.sql`), jangan hanya di frontend — dua user bisa submit bersamaan (race condition).
+- View `bookings_public` tidak menyertakan `customer_name`, `customer_phone`, `customer_id` — aman untuk kalender publik tanpa login.
+- Simpan semua timestamp dalam UTC di database, convert ke WIB (Asia/Jakarta) hanya saat ditampilkan.
+- Booking manual oleh admin: `customer_id` boleh null, `customer_name` & `customer_phone` tetap wajib diisi manual.
+
+---
+
+## Fitur V1
+
+- [x] Database schema + RLS + exclusion constraint
+- [x] AuthContext (global session + profile + role)
+- [x] Guard `RequireAuth` (wajib login)
+- [x] Guard `RequireAdminRole` (wajib admin)
+- [x] Login customer (`/login`)
+- [x] Sign up customer (`/signup`)
+- [x] Dashboard customer — riwayat booking (`/dashboard`)
+- [x] Login admin dengan validasi role (`/admin/login`)
+- [x] Dashboard admin — ringkasan + aksi cepat (`/admin`)
+- [x] Routing lengkap dengan semua guard
+
+## Fitur Berikutnya (Stub sudah ada, tinggal diisi)
+
+- [x] Kalender publik (`CalendarPage`)
+- [x] Form booking customer (`BookingFormPage`)
+- [x] Tabel kelola booking admin (`AdminBookingsPage`)
+- [x] Kalender admin + booking manual (`AdminCalendarPage`)
+- [x] Jadwal tutup/libur (`AdminClosedDatesPage`)
+- [ ] Customer batalkan booking sendiri (selama pending)
+- [ ] Reset password via email
+- [ ] Notifikasi WhatsApp/email saat status berubah
+
+## 🖼️ Screenshots
+
+### Halaman Utama
+
+<img src="images/Halaman_Utama.png" width="900">
+
+### Login Admin
+
+<img src="images/Login_Admin.png" width="900">
+
+### Dashboard Admin
+
+<img src="images/Dashboard_Admin.png" width="900">
+>>>>>>> 700ba1f808cb9e46055e8dc1d67f4b453d3404be
