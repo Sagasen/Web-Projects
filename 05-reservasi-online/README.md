@@ -1,10 +1,9 @@
-<<<<<<< HEAD
 <div align="center">
 
-# 📅 BookSpace
-### Sistem Reservasi Online Berbasis Web
+# 🗓️ Sistem Manajemen Reservasi Online Berbasis AI
+### Platform Booking Sanggar & Studio Modern
 
-**Kelola jadwal booking sanggar & studio lebih mudah, lebih rapi, lebih profesional.**
+**Kelola jadwal reservasi lebih mudah, lebih rapi, lebih profesional.**
 
 [![Live Demo](https://img.shields.io/badge/🌐_Live_Demo-reservasi--online.vercel.app-green?style=for-the-badge)](https://reservasi-online.vercel.app)
 [![React](https://img.shields.io/badge/React-18-61DAFB?style=for-the-badge&logo=react)](https://reactjs.org)
@@ -12,17 +11,12 @@
 [![Vercel](https://img.shields.io/badge/Deploy-Vercel-black?style=for-the-badge&logo=vercel)](https://vercel.com)
 
 </div>
-=======
-# Sistem Manajemen Reservasi Online Berbasis AI
-
-Aplikasi web Reservasi Online Berbasis AI — dibangun dengan React + Vite + Supabase.
->>>>>>> 700ba1f808cb9e46055e8dc1d67f4b453d3404be
 
 ---
 
-## 📌 Tentang BookSpace
+## 📌 Tentang Aplikasi
 
-**BookSpace** adalah aplikasi web reservasi online modern yang dirancang untuk membantu pemilik sanggar, studio senam, studio tari, atau tempat latihan lainnya dalam mengelola jadwal booking secara digital — dari pengajuan booking oleh customer, konfirmasi admin, hingga kalender jadwal real-time, semua dalam satu dashboard yang simpel dan profesional.
+**Sistem Manajemen Reservasi Online Berbasis AI** adalah aplikasi web reservasi modern yang dirancang untuk membantu pemilik sanggar, studio senam, studio tari, atau tempat latihan lainnya dalam mengelola jadwal booking secara digital — dari pengajuan booking oleh customer, konfirmasi admin, hingga kalender jadwal real-time, semua dalam satu dashboard yang simpel dan profesional.
 
 > Tidak perlu lagi terima booking lewat chat satu per satu, tidak ada lagi jadwal yang bentrok, tidak ada lagi booking yang terlewat.
 
@@ -37,6 +31,7 @@ Aplikasi web Reservasi Online Berbasis AI — dibangun dengan React + Vite + Sup
 - 🗓️ **Kalender Admin** — Tampilan kalender lengkap + tambah booking manual untuk customer offline
 - 🚫 **Jadwal Tutup** — Admin bisa tandai tanggal libur/tutup agar tidak bisa diboking
 - 📊 **Dashboard Ringkasan** — Statistik booking hari ini, menunggu konfirmasi, dan sudah dikonfirmasi
+- 🤖 **AI Booking Assistant** — Asisten AI untuk membantu pengelolaan reservasi
 - 🔒 **Keamanan Data** — Row Level Security (RLS) Supabase — customer hanya bisa lihat data sendiri
 - 📱 **Responsive** — Tampilan optimal di desktop maupun mobile
 
@@ -85,11 +80,6 @@ cd Web-Projects/05-reservasi-online
 ### 2. Install Dependencies
 
 ```bash
-<<<<<<< HEAD
-=======
-git clone <repo-url>
-cd reservasi-online
->>>>>>> 700ba1f808cb9e46055e8dc1d67f4b453d3404be
 npm install
 ```
 
@@ -129,7 +119,7 @@ Buka [http://localhost:5200](http://localhost:5200) di browser.
 
 ### 3. Buat Tabel Database
 1. Buka **SQL Editor → New Query**
-2. Copy & paste isi file `supabase/migrations/001_init.sql` yang ada di project
+2. Copy & paste isi file `supabase/migrations/001_init.sql`
 3. Klik **Run**
 4. Semua tabel, RLS, trigger, dan view akan otomatis terbuat ✅
 
@@ -194,15 +184,7 @@ git push origin main
 ## 📁 Struktur Project
 
 ```
-<<<<<<< HEAD
 05-reservasi-online/
-=======
-reservasi-online/
-├── supabase/
-│   └── migrations/
-│       └── 001_init.sql              ← ⭐ jalankan ini di Supabase SQL Editor
-│
->>>>>>> 700ba1f808cb9e46055e8dc1d67f4b453d3404be
 ├── src/
 │   ├── components/
 │   │   └── layout/
@@ -235,7 +217,7 @@ reservasi-online/
 ├── supabase/
 │   └── migrations/
 │       └── 001_init.sql               # Schema DB + RLS + trigger
-├── .env.example                       # Contoh environment variables
+├── .env.example
 ├── index.html
 ├── vite.config.js
 ├── tailwind.config.js
@@ -252,12 +234,12 @@ reservasi-online/
 - [x] Dashboard admin — terima / tolak booking
 - [x] Kalender admin + booking manual
 - [x] Jadwal tutup / libur
+- [x] AI Booking Assistant
 - [x] Responsive mobile & desktop
 - [ ] Notifikasi WhatsApp saat status booking berubah
 - [ ] Export laporan booking ke PDF/Excel
 - [ ] Multi studio (satu akun kelola beberapa tempat)
 - [ ] Reminder H-1 booking otomatis
-- [ ] Ulasan & rating dari customer
 
 ---
 
@@ -267,55 +249,4 @@ reservasi-online/
 
 [![Live Demo](https://img.shields.io/badge/🚀_Live_Demo-reservasi--online.vercel.app-success?style=flat-square)](https://reservasi-online.vercel.app)
 
-<<<<<<< HEAD
 </div>
-=======
----
-
-## Catatan Developer
-
-- Validasi bentrok jam **wajib double-check** di database (exclusion constraint di `001_init.sql`), jangan hanya di frontend — dua user bisa submit bersamaan (race condition).
-- View `bookings_public` tidak menyertakan `customer_name`, `customer_phone`, `customer_id` — aman untuk kalender publik tanpa login.
-- Simpan semua timestamp dalam UTC di database, convert ke WIB (Asia/Jakarta) hanya saat ditampilkan.
-- Booking manual oleh admin: `customer_id` boleh null, `customer_name` & `customer_phone` tetap wajib diisi manual.
-
----
-
-## Fitur V1
-
-- [x] Database schema + RLS + exclusion constraint
-- [x] AuthContext (global session + profile + role)
-- [x] Guard `RequireAuth` (wajib login)
-- [x] Guard `RequireAdminRole` (wajib admin)
-- [x] Login customer (`/login`)
-- [x] Sign up customer (`/signup`)
-- [x] Dashboard customer — riwayat booking (`/dashboard`)
-- [x] Login admin dengan validasi role (`/admin/login`)
-- [x] Dashboard admin — ringkasan + aksi cepat (`/admin`)
-- [x] Routing lengkap dengan semua guard
-
-## Fitur Berikutnya (Stub sudah ada, tinggal diisi)
-
-- [x] Kalender publik (`CalendarPage`)
-- [x] Form booking customer (`BookingFormPage`)
-- [x] Tabel kelola booking admin (`AdminBookingsPage`)
-- [x] Kalender admin + booking manual (`AdminCalendarPage`)
-- [x] Jadwal tutup/libur (`AdminClosedDatesPage`)
-- [ ] Customer batalkan booking sendiri (selama pending)
-- [ ] Reset password via email
-- [ ] Notifikasi WhatsApp/email saat status berubah
-
-## 🖼️ Screenshots
-
-### Halaman Utama
-
-<img src="images/Halaman_Utama.png" width="900">
-
-### Login Admin
-
-<img src="images/Login_Admin.png" width="900">
-
-### Dashboard Admin
-
-<img src="images/Dashboard_Admin.png" width="900">
->>>>>>> 700ba1f808cb9e46055e8dc1d67f4b453d3404be
