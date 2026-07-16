@@ -287,7 +287,7 @@ export function buildWhatsAppLink(message, phoneNumber) {
 export function buildOrderChatMessage(transaction) {
   const formatIDR = (n) => 'Rp' + (Number(n) || 0).toLocaleString('id-ID');
   return `-------------------------------------------------
-*ETERNAL MYTH STUDIO*
+*AEON STUDIO*
 *PAYOUT COMMUNITY*
 
 Username: ${transaction.roblox_username || '-'}

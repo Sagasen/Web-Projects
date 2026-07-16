@@ -1,5 +1,5 @@
 -- ============================================================
--- SQL Schema — Eternal Myth Studio / Payout Community
+-- SQL Schema — Aeon Studio / Payout Community
 -- Run this in the Supabase SQL Editor.
 -- All statements are safe to run multiple times (idempotent).
 -- ============================================================
@@ -62,11 +62,11 @@ CREATE TABLE IF NOT EXISTS app_settings (
 -- Discord URL is a direct DM link to the admin profile.
 -- ============================================================
 INSERT INTO app_settings (key, value) VALUES
-    ('brand_name',     'Eternal Myth Studio'),
+    ('brand_name',     'Aeon Studio'),
     ('subtitle',       'Payout Community'),
-    ('whatsapp_number','6281234567890'),
-    ('discord_url',    'https://discord.com/users/459376386671509505'),
-    ('tiktok_url',     'https://www.tiktok.com/@eternalmyth')
+    ('whatsapp_number','628000000000'),
+    ('discord_url',    'https://discord.gg/example'),
+    ('tiktok_url',     'https://www.tiktok.com/@yourusername')
 ON CONFLICT (key) DO UPDATE SET
     value      = EXCLUDED.value,
     updated_at = NOW();

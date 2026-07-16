@@ -112,7 +112,7 @@ export default function PaymentQr() {
       </div>
 
       <div className="pt-4 border-t border-obsidian-border text-center text-[10px] text-slate-500">
-        Eternal Myth Studio © 2026. All rights reserved.
+        Aeon Studio © 2026. All rights reserved.
       </div>
     </div>
   );

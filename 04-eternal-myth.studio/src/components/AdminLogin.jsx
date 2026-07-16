@@ -49,7 +49,7 @@ export default function AdminLogin({ onLoginSuccess }) {
             Admin Portal login
           </h2>
           <p className="mt-2 text-xs text-slate-400 font-medium">
-            Eternal Myth Studio — Payout Community
+            Aeon Studio — Payout Community
           </p>
         </div>
 
@@ -83,7 +83,7 @@ export default function AdminLogin({ onLoginSuccess }) {
                 <input
                   type="text"
                   required
-                  placeholder="admin@eternalmyth.studio"
+                  placeholder="admin@gmail.com"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   className="block w-full pl-10 pr-3 py-3 bg-transparent text-slate-100 placeholder-purple-900/40 focus:outline-none text-sm font-medium"

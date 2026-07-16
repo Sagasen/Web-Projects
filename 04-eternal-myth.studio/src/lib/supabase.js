@@ -69,11 +69,11 @@ const initMockDB = () => {
   }
   if (!localStorage.getItem('ems_mock_settings')) {
     localStorage.setItem('ems_mock_settings', JSON.stringify({
-      brand_name: 'Eternal Myth Studio',
+      brand_name: 'Aeon Studio',
       subtitle: 'Payout Community',
-      whatsapp_number: '6281234567890',
-      discord_url: 'https://discord.gg/eternalmyth',
-      tiktok_url: 'https://www.tiktok.com/@eternalmyth'
+      whatsapp_number: '628000000000',
+      discord_url: 'https://discord.gg/example',
+      tiktok_url: 'https://www.tiktok.com/@yourusername'
     }));
   }
   if (!localStorage.getItem('ems_mock_session')) {
@@ -103,9 +103,9 @@ const mockSupabase = {
   // Mock auth operations
   auth: {
     signInWithPassword: async ({ email, password }) => {
-      // Allow any email ending with @eternalmyth.studio or admin/admin
+      // Allow demo admin credentials or admin/admin
       if (
-        (email === 'admin@eternalmyth.studio' && password === 'admin123') ||
+        (email === 'admin@gmail.com' && password === 'admin123') ||
         (email === 'admin' && password === 'admin')
       ) {
         const mockUser = {

@@ -17,9 +17,9 @@ export default function ChatPreviewStep({ transaction, settings, onBack }) {
     }
   };
 
-  const waLink      = buildWhatsAppLink(chatMessage, settings.whatsapp_number || '6281234567890');
-  const discordUrl  = settings.discord_url || 'https://discord.com/users/459376386671509505';
-  const tiktokUrl   = settings.tiktok_url  || 'https://www.tiktok.com/@eternalmyth';
+  const waLink      = buildWhatsAppLink(chatMessage, settings.whatsapp_number || '628000000000');
+  const discordUrl  = settings.discord_url || 'https://discord.gg/example';
+  const tiktokUrl   = settings.tiktok_url  || 'https://www.tiktok.com/@yourusername';
 
   return (
     <div className="glass-panel glass-panel-glow rounded-2xl p-6 md:p-8 space-y-6 relative overflow-hidden">

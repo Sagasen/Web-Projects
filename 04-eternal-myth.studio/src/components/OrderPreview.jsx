@@ -32,7 +32,7 @@ export default function OrderPreview({ formData }) {
   // Chat message generator
   const generateChatString = () => {
     return `
-*ETERNAL MYTH STUDIO*
+*AEON STUDIO*
 *PAYOUT COMMUNITY*
 
 ✦Username: ${formData.username || '-'}
@@ -62,7 +62,7 @@ Catatan: ${formData.notes || '-'}`;
   const getWhatsAppLink = () => {
     const encodedText = encodeURIComponent(chatString);
     // Standard placeholder Indonesian admin WhatsApp number
-    return `https://wa.me/6281234567890?text=${encodedText}`;
+    return `https://wa.me/628000000000?text=${encodedText}`;
   };
 
   return (
@@ -156,7 +156,7 @@ Catatan: ${formData.notes || '-'}`;
         {/* Secondary Links */}
         <div className="grid grid-cols-2 gap-3">
           <a
-            href="https://discord.gg/eternalmyth"
+            href="https://discord.gg/example"
             target="_blank"
             rel="noopener noreferrer"
             className="btn-premium-dark py-2.5 rounded-lg flex items-center justify-center gap-2 text-xs font-bold"
@@ -165,7 +165,7 @@ Catatan: ${formData.notes || '-'}`;
             <ExternalLink className="w-3 h-3 text-indigo-400" />
           </a>
           <a
-            href="https://www.tiktok.com/@eternalmyth"
+            href="https://www.tiktok.com/@yourusername"
             target="_blank"
             rel="noopener noreferrer"
             className="btn-premium-dark py-2.5 rounded-lg flex items-center justify-center gap-2 text-xs font-bold"

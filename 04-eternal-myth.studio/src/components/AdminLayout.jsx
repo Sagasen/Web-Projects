@@ -17,7 +17,7 @@ export default function AdminLayout({ children, session, onLogout }) {
   const location = useLocation();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
-  const email = session?.user?.email || 'admin@eternalmyth.studio';
+  const email = session?.user?.email || 'admin@aeonstudio.com';
 
   const navItems = [
     { name: 'Dashboard', path: '/admin/dashboard', icon: LayoutDashboard },

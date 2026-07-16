@@ -13,7 +13,7 @@ export default function HeaderHero() {
       </div>
 
       <h1 className="font-fantasy text-3xl md:text-5xl lg:text-6xl font-black text-transparent bg-clip-text bg-gradient-to-r from-gold-light via-gold-primary to-gold-dark tracking-wider uppercase drop-shadow-[0_2px_10px_rgba(212,175,55,0.15)]">
-        Eternal Myth Studio
+        Aeon Studio
       </h1>
     </header>
   );

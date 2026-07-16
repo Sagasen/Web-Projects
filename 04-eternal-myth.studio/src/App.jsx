@@ -18,11 +18,11 @@ function App() {
 
   // Default settings (updated with correct Discord DM URL)
   const [settings, setSettings] = useState({
-    brand_name: 'Eternal Myth Studio',
+    brand_name: 'Aeon Studio',
     subtitle: 'Payout Community',
-    whatsapp_number: '6281234567890',
-    discord_url: 'https://discord.com/users/459376386671509505',
-    tiktok_url: 'https://www.tiktok.com/@eternalmyth'
+    whatsapp_number: '628000000000',
+    discord_url: 'https://discord.gg/example',
+    tiktok_url: 'https://www.tiktok.com/@yourusername'
   });
 
   // Check Supabase Authentication status
@@ -179,7 +179,7 @@ function CustomerFlow({ settings }) {
           <Link to="/" className="hover:text-gold-primary transition-colors">Halaman Utama</Link>
           <Link to="/admin/login" className="hover:text-gold-primary transition-colors">Portal Admin</Link>
         </div>
-        <p>Eternal Myth Studio. Dibuat dengan dedikasi untuk komunitas Roblox Indonesia.</p>
+        <p>Aeon Studio. Dibuat dengan dedikasi untuk komunitas Roblox Indonesia.</p>
       </footer>
     </div>
   );
