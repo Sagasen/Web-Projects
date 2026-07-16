@@ -39,13 +39,13 @@
 
 ## 🖥️ Screenshot
 
-| Kalender Publik | Dashboard Admin |
+| Halaman Utama | Dashboard Admin |
 |---|---|
-| ![Kalender](docs/calendar.png) | ![Admin](docs/admin.png) |
+| ![Customer](images/Halaman_Utama.png) | ![Admin](images/Dashboard_Admin.png) |
 
-| Form Booking | Riwayat Booking |
-|---|---|
-| ![Booking](docs/booking.png) | ![Riwayat](docs/history.png) |
+| Login Admin |
+|---|
+| ![Login](images/Login_Admin.png) | 
 
 ---
 
