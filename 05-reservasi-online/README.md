@@ -1,218 +1,251 @@
-# Tarasari Booking App
+<div align="center">
 
-Aplikasi web booking tempat senam untuk **Tarasari** — dibangun dengan React + Vite + Supabase.
+# 📅 BookSpace
+### Sistem Reservasi Online Berbasis Web
+
+**Kelola jadwal booking sanggar & studio lebih mudah, lebih rapi, lebih profesional.**
+
+[![Live Demo](https://img.shields.io/badge/🌐_Live_Demo-reservasi--online.vercel.app-green?style=for-the-badge)](https://reservasi-online.vercel.app)
+[![React](https://img.shields.io/badge/React-18-61DAFB?style=for-the-badge&logo=react)](https://reactjs.org)
+[![Supabase](https://img.shields.io/badge/Supabase-Database-3ECF8E?style=for-the-badge&logo=supabase)](https://supabase.com)
+[![Vercel](https://img.shields.io/badge/Deploy-Vercel-black?style=for-the-badge&logo=vercel)](https://vercel.com)
+
+</div>
 
 ---
 
-## Tech Stack
+## 📌 Tentang BookSpace
 
-| Layer | Teknologi |
+**BookSpace** adalah aplikasi web reservasi online modern yang dirancang untuk membantu pemilik sanggar, studio senam, studio tari, atau tempat latihan lainnya dalam mengelola jadwal booking secara digital — dari pengajuan booking oleh customer, konfirmasi admin, hingga kalender jadwal real-time, semua dalam satu dashboard yang simpel dan profesional.
+
+> Tidak perlu lagi terima booking lewat chat satu per satu, tidak ada lagi jadwal yang bentrok, tidak ada lagi booking yang terlewat.
+
+---
+
+## ✨ Fitur Utama
+
+- 🔐 **Autentikasi Multi-Role** — Login terpisah untuk Customer dan Admin
+- 📆 **Kalender Publik** — Pengunjung bisa lihat jadwal booking tanpa perlu login
+- 📝 **Form Booking Online** — Customer ajukan booking dengan validasi jam & tanggal otomatis
+- ✅ **Kelola Booking (Admin)** — Terima, tolak, atau batalkan booking dari dashboard
+- 🗓️ **Kalender Admin** — Tampilan kalender lengkap + tambah booking manual untuk customer offline
+- 🚫 **Jadwal Tutup** — Admin bisa tandai tanggal libur/tutup agar tidak bisa diboking
+- 📊 **Dashboard Ringkasan** — Statistik booking hari ini, menunggu konfirmasi, dan sudah dikonfirmasi
+- 🔒 **Keamanan Data** — Row Level Security (RLS) Supabase — customer hanya bisa lihat data sendiri
+- 📱 **Responsive** — Tampilan optimal di desktop maupun mobile
+
+---
+
+## 🖥️ Screenshot
+
+| Kalender Publik | Dashboard Admin |
 |---|---|
-| Frontend | React 18 + Vite |
-| Styling | Tailwind CSS |
-| Backend / DB | Supabase (PostgreSQL) |
-| Auth | Supabase Auth — email + password |
-| Routing | React Router v6 |
-| Icon | Lucide React |
-| Date utility | date-fns |
+| ![Kalender](docs/calendar.png) | ![Admin](docs/admin.png) |
+
+| Form Booking | Riwayat Booking |
+|---|---|
+| ![Booking](docs/booking.png) | ![Riwayat](docs/history.png) |
 
 ---
 
-## Tiga Level Akses
+## 🛠️ Tech Stack
 
-| Level | Wajib Login? | Hak Akses |
-|---|---|---|
-| **Pengunjung** | Tidak | Lihat kalender, lihat detail jam per tanggal |
-| **Customer** | Ya (role `customer`) | Booking baru + riwayat booking sendiri |
-| **Admin** | Ya (role `admin`) | Kelola semua booking, jadwal tutup, booking manual |
-
-> Customer dan Admin sama-sama login lewat Supabase Auth yang sama.  
-> Yang membedakan hak akses adalah kolom `role` di tabel `profiles`.
+| Teknologi | Kegunaan |
+|---|---|
+| [React 18](https://reactjs.org) + [Vite 5](https://vitejs.dev) | Framework & build tool frontend |
+| [Tailwind CSS](https://tailwindcss.com) | Styling & desain UI |
+| [Supabase](https://supabase.com) | Database PostgreSQL & autentikasi |
+| [React Router v6](https://reactrouter.com) | Client-side routing & route guard |
+| [date-fns](https://date-fns.org) | Utilitas tanggal & kalender |
+| [Lucide React](https://lucide.dev) | Icon library |
+| [Vercel](https://vercel.com) | Hosting & deployment |
 
 ---
 
-## Setup Awal
+## 🚀 Cara Menjalankan Lokal
 
-### 1. Clone & install
+### Prasyarat
+- Node.js versi 18 atau lebih baru
+- Akun [Supabase](https://supabase.com) (gratis)
+- Akun [Vercel](https://vercel.com) (gratis)
+
+### 1. Clone Repository
 
 ```bash
-git clone <repo-url>
-cd tarasari-booking
+git clone https://github.com/Sagasen/Web-Projects.git
+cd Web-Projects/05-reservasi-online
+```
+
+### 2. Install Dependencies
+
+```bash
 npm install
 ```
 
-### 2. Buat file `.env`
+### 3. Setup Environment Variables
 
-```bash
-cp .env.example .env
-```
-
-Isi dengan nilai dari **Supabase Dashboard → Settings → API**:
+Buat file `.env` di root project:
 
 ```env
-VITE_SUPABASE_URL=https://xxxxxxxxxxxxxxxxxxxx.supabase.co
-VITE_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+VITE_SUPABASE_URL=https://xxxxxxxx.supabase.co
+VITE_SUPABASE_ANON_KEY=sb_publishable_xxxxxxxxxxxxxxxx
 ```
 
-> ⚠️ Jangan pernah taruh `service_role` key di `.env` frontend.
+> Lihat cara mendapatkan nilai ini di bagian [Setup Supabase](#️-setup-supabase) di bawah.
 
-### 3. Jalankan migrasi database
-
-Buka **Supabase Dashboard → SQL Editor**, lalu copy-paste dan jalankan isi file:
-
-```
-supabase/migrations/001_init.sql
-```
-
-File ini akan membuat:
-- Tabel `profiles`, `bookings`, `closed_dates`
-- Fungsi `is_admin()` dan `handle_new_user()`
-- Trigger otomatis saat user baru daftar
-- Exclusion constraint anti-bentrok jam
-- RLS (Row Level Security) untuk semua tabel
-- View `bookings_public` untuk halaman kalender publik
-
-### 4. Buat akun Admin
-
-Lewat **Supabase Dashboard → Authentication → Add User**:
-- Isi email & password
-- Klik **User Metadata** → masukkan JSON:
-  ```json
-  { "role": "admin", "full_name": "Nama Admin" }
-  ```
-
-> Jika lupa isi metadata: buka **Table Editor → profiles** → ubah kolom `role` dari `'customer'` ke `'admin'`.
-
-### 5. Jalankan dev server
+### 4. Jalankan Development Server
 
 ```bash
 npm run dev
 ```
 
+Buka [http://localhost:5200](http://localhost:5200) di browser.
+
 ---
 
-## Struktur File (yang sudah dibuat)
+## 🗄️ Setup Supabase
+
+### 1. Buat Project Supabase
+1. Daftar di [supabase.com](https://supabase.com)
+2. Klik **New Project** → isi nama: `reservasi-online`
+3. Pilih region: **Southeast Asia (Singapore)**
+4. Tunggu project siap (~2 menit)
+
+### 2. Ambil Kredensial
+1. Buka **Settings → API**
+2. Copy **Project URL** → masukkan ke `VITE_SUPABASE_URL`
+3. Copy **Publishable key** → masukkan ke `VITE_SUPABASE_ANON_KEY`
+
+### 3. Buat Tabel Database
+1. Buka **SQL Editor → New Query**
+2. Copy & paste isi file `supabase/migrations/001_init.sql` yang ada di project
+3. Klik **Run**
+4. Semua tabel, RLS, trigger, dan view akan otomatis terbuat ✅
+
+### 4. Buat Akun Admin
+1. Buka **Authentication → Users → Add User**
+2. Isi email & password admin
+3. Di bagian **User Metadata**, masukkan:
+```json
+{ "role": "admin", "full_name": "Nama Admin" }
+```
+
+---
+
+## ☁️ Deploy ke Vercel
+
+### 1. Push ke GitHub
+```bash
+git add .
+git commit -m "initial commit"
+git push origin main
+```
+
+### 2. Import di Vercel
+1. Buka [vercel.com](https://vercel.com) → **Add New Project**
+2. Import repository dari GitHub
+3. Tambahkan **Environment Variables**:
+   - `VITE_SUPABASE_URL`
+   - `VITE_SUPABASE_ANON_KEY`
+4. Centang semua environment: **Production, Preview, Development**
+5. Klik **Deploy** 🚀
+
+---
+
+## 🔑 Environment Variables
+
+| Variable | Deskripsi | Wajib |
+|---|---|---|
+| `VITE_SUPABASE_URL` | URL project Supabase | ✅ |
+| `VITE_SUPABASE_ANON_KEY` | Publishable key Supabase | ✅ |
+
+---
+
+## 👥 Role & Akses
+
+| Role | Akses |
+|---|---|
+| **Pengunjung** | Lihat kalender booking publik |
+| **Customer** | Kalender, booking baru, riwayat & status booking sendiri |
+| **Admin** | Dashboard, kelola semua booking, kalender admin, jadwal tutup |
+
+> 💡 Login admin dilakukan di halaman `/admin` (tidak ada link dari halaman publik).
+
+### Akun Demo
+
+| Role | Email | Password |
+|---|---|---|
+| Customer | customer@gmail.com | customer |
+| Admin | admin@gmail.com | admin123 |
+
+---
+
+## 📁 Struktur Project
 
 ```
-tarasari-booking/
-├── supabase/
-│   └── migrations/
-│       └── 001_init.sql              ← ⭐ jalankan ini di Supabase SQL Editor
-│
+05-reservasi-online/
 ├── src/
-│   ├── lib/
-│   │   ├── supabaseClient.js         ← inisialisasi Supabase client
-│   │   ├── authUtils.js              ← signIn, signUp, signOut, getCurrentProfile
-│   │   └── AuthContext.jsx           ← global auth state (session, profile, role)
-│   │
 │   ├── components/
 │   │   └── layout/
-│   │       ├── RequireAuth.jsx       ← guard: wajib login (role apapun)
-│   │       ├── RequireAdminRole.jsx  ← guard: wajib login DAN role = admin ⭐
-│   │       ├── CustomerLayout.jsx    ← topbar + nav untuk dashboard customer
-│   │       └── AdminLayout.jsx       ← sidebar untuk semua halaman admin
-│   │
+│   │       ├── PublicLayout.jsx       # Navbar publik dengan profil dropdown
+│   │       ├── CustomerLayout.jsx     # Layout dashboard customer
+│   │       ├── AdminLayout.jsx        # Sidebar admin panel
+│   │       ├── RequireAuth.jsx        # Guard: wajib login
+│   │       └── RequireAdminRole.jsx   # Guard: wajib role admin
 │   ├── pages/
 │   │   ├── public/
-│   │   │   ├── CalendarPage.jsx      ← halaman utama kalender publik
-│   │   │   ├── LoginPage.jsx         ← ⭐ login customer (lengkap)
-│   │   │   └── SignupPage.jsx        ← ⭐ daftar customer baru (lengkap)
-│   │   │
+│   │   │   ├── CalendarPage.jsx       # Kalender booking publik
+│   │   │   ├── LoginPage.jsx          # Login customer
+│   │   │   └── SignupPage.jsx         # Daftar akun baru
 │   │   ├── customer/
-│   │   │   ├── DashboardPage.jsx     ← ⭐ riwayat booking customer (lengkap)
-│   │   │   ├── BookingFormPage.jsx   ← form booking customer
-│   │   │   └── BookingSuccessPage.jsx
-│   │   │
+│   │   │   ├── DashboardPage.jsx      # Riwayat booking customer
+│   │   │   ├── BookingFormPage.jsx    # Form booking baru
+│   │   │   └── BookingSuccessPage.jsx # Konfirmasi booking berhasil
 │   │   └── admin/
-│   │       ├── AdminLoginPage.jsx    ← ⭐ login admin + validasi role (lengkap)
-│   │       ├── AdminDashboardPage.jsx← ⭐ ringkasan + aksi cepat admin (lengkap)
-│   │       ├── AdminBookingsPage.jsx ← tabel kelola booking
-│   │       ├── AdminCalendarPage.jsx ← kalender admin + booking manual
-│   │       └── AdminClosedDatesPage.jsx ← jadwal tutup (stub)
-│   │
-│   ├── routes/
-│   │   └── AppRoutes.jsx             ← ⭐ semua route + guard terpasang
-│   │
-│   ├── App.jsx
-│   ├── main.jsx
-│   └── index.css
-│
+│   │       ├── AdminLoginPage.jsx     # Login admin (/admin)
+│   │       ├── AdminDashboardPage.jsx # Dashboard ringkasan admin
+│   │       ├── AdminBookingsPage.jsx  # Kelola semua booking
+│   │       ├── AdminCalendarPage.jsx  # Kalender admin + booking manual
+│   │       └── AdminClosedDatesPage.jsx # Jadwal tutup/libur
+│   ├── lib/
+│   │   ├── supabaseClient.js          # Konfigurasi Supabase
+│   │   ├── authUtils.js               # Helper fungsi autentikasi
+│   │   └── AuthContext.jsx            # Global auth state (session, role)
+│   └── routes/
+│       └── AppRoutes.jsx              # Routing lengkap + semua guard
+├── supabase/
+│   └── migrations/
+│       └── 001_init.sql               # Schema DB + RLS + trigger
+├── .env.example                       # Contoh environment variables
+├── index.html
+├── vite.config.js
 ├── tailwind.config.js
-├── package.json
-├── .env.example
-└── README.md
+└── package.json
 ```
 
 ---
 
-## Routes
+## 🗺️ Roadmap
 
-| Route | Guard | Halaman |
-|---|---|---|
-| `/` | Publik | Kalender booking |
-| `/login` | Publik | Login customer |
-| `/signup` | Publik | Daftar akun baru |
-| `/admin` | Publik | Login admin |
-| `/dashboard` | `RequireAuth` | Riwayat booking saya |
-| `/dashboard/booking` | `RequireAuth` | Form booking baru |
-| `/dashboard/booking-success` | `RequireAuth` | Konfirmasi booking terkirim |
-| `/admin/dashboard` | `RequireAdminRole` | Dashboard ringkasan admin |
-| `/admin/bookings` | `RequireAdminRole` | Kelola semua booking |
-| `/admin/calendar` | `RequireAdminRole` | Kalender admin |
-| `/admin/closed-dates` | `RequireAdminRole` | Jadwal tutup/libur |
-
----
-
-## Cara Kerja Guard Admin (`RequireAdminRole`)
-
-```
-User akses /admin/*
-    │
-    ├─ loading session? → tampil spinner
-    │
-    ├─ belum login?     → redirect /admin/login
-    │
-    ├─ sudah login tapi role ≠ admin?
-    │     → signOut otomatis di AdminLoginPage
-    │     → redirect / (homepage)
-    │
-    └─ login + role = admin → render halaman admin ✅
-```
-
-> **Penting:** Guard ini cek role dari tabel `profiles` via `AuthContext`,  
-> **bukan** hanya cek apakah session ada. Ini mencegah customer masuk ke admin panel.
+- [x] Autentikasi multi-role (Customer & Admin)
+- [x] Kalender booking publik (tanpa login)
+- [x] Form booking dengan validasi bentrok jam
+- [x] Dashboard admin — terima / tolak booking
+- [x] Kalender admin + booking manual
+- [x] Jadwal tutup / libur
+- [x] Responsive mobile & desktop
+- [ ] Notifikasi WhatsApp saat status booking berubah
+- [ ] Export laporan booking ke PDF/Excel
+- [ ] Multi studio (satu akun kelola beberapa tempat)
+- [ ] Reminder H-1 booking otomatis
+- [ ] Ulasan & rating dari customer
 
 ---
 
-## Catatan Developer
+<div align="center">
 
-- Validasi bentrok jam **wajib double-check** di database (exclusion constraint di `001_init.sql`), jangan hanya di frontend — dua user bisa submit bersamaan (race condition).
-- View `bookings_public` tidak menyertakan `customer_name`, `customer_phone`, `customer_id` — aman untuk kalender publik tanpa login.
-- Simpan semua timestamp dalam UTC di database, convert ke WIB (Asia/Jakarta) hanya saat ditampilkan.
-- Booking manual oleh admin: `customer_id` boleh null, `customer_name` & `customer_phone` tetap wajib diisi manual.
+⭐ Jangan lupa beri bintang jika project ini membantu!
 
----
+[![Live Demo](https://img.shields.io/badge/🚀_Live_Demo-reservasi--online.vercel.app-success?style=flat-square)](https://reservasi-online.vercel.app)
 
-## Fitur V1
-
-- [x] Database schema + RLS + exclusion constraint
-- [x] AuthContext (global session + profile + role)
-- [x] Guard `RequireAuth` (wajib login)
-- [x] Guard `RequireAdminRole` (wajib admin)
-- [x] Login customer (`/login`)
-- [x] Sign up customer (`/signup`)
-- [x] Dashboard customer — riwayat booking (`/dashboard`)
-- [x] Login admin dengan validasi role (`/admin/login`)
-- [x] Dashboard admin — ringkasan + aksi cepat (`/admin`)
-- [x] Routing lengkap dengan semua guard
-
-## Fitur Berikutnya (Stub sudah ada, tinggal diisi)
-
-- [x] Kalender publik (`CalendarPage`)
-- [x] Form booking customer (`BookingFormPage`)
-- [x] Tabel kelola booking admin (`AdminBookingsPage`)
-- [x] Kalender admin + booking manual (`AdminCalendarPage`)
-- [x] Jadwal tutup/libur (`AdminClosedDatesPage`)
-- [ ] Customer batalkan booking sendiri (selama pending)
-- [ ] Reset password via email
-- [ ] Notifikasi WhatsApp/email saat status berubah
+</div>
