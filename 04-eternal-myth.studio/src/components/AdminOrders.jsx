@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { RefreshCw, Search, Check, X, FileText, AlertCircle, CheckCircle2, Coins } from 'lucide-react';
+import { RefreshCw, Search, Check, X, FileText, AlertCircle, CheckCircle2, Coins, Eye } from 'lucide-react';
 import supabase from '../lib/supabase';
 import { formatCurrency, formatDate } from '../lib/utils';
 
@@ -10,6 +10,30 @@ export default function AdminOrders() {
   const [search, setSearch]           = useState('');
   const [actionMsg, setActionMsg]     = useState('');
   const [actionId, setActionId]       = useState(null);
+  const [previewProof, setPreviewProof] = useState(null); // { url, orderCode }
+
+  const [proofLoading, setProofLoading] = useState(false);
+
+  // "payment-proofs" bucket bersifat PRIVATE (hanya admin login yang boleh baca lewat RLS),
+  // jadi harus pakai signed URL sementara, bukan public URL.
+  const openProof = async (path, orderCode) => {
+    if (!path) return;
+    setProofLoading(true);
+    setPreviewProof({ url: null, orderCode });
+    try {
+      const { data, error: signErr } = await supabase.storage
+        .from('payment-proofs')
+        .createSignedUrl(path, 60 * 5); // berlaku 5 menit
+
+      if (signErr) throw signErr;
+      setPreviewProof({ url: data?.signedUrl || null, orderCode });
+    } catch (err) {
+      console.error('Gagal memuat bukti bayar:', err);
+      setPreviewProof({ url: null, orderCode, errorMsg: err.message });
+    } finally {
+      setProofLoading(false);
+    }
+  };
 
   const fetchOrders = async () => {
     setLoading(true);
@@ -167,12 +191,17 @@ export default function AdminOrders() {
                     <td className="py-4 px-4 font-extrabold text-gold-light text-glow-gold whitespace-nowrap">{formatCurrency(order.total_price)}</td>
                     <td className="py-4 px-4">
                       {order.payment_proof_path ? (
-                        <span className="text-[10px] text-gold-primary font-bold flex items-center gap-1">
-                          <FileText className="w-3 h-3" />
-                          <span className="font-mono truncate max-w-[100px]">
+                        <button
+                          type="button"
+                          onClick={() => openProof(order.payment_proof_path, order.order_code)}
+                          className="text-[10px] text-gold-primary font-bold flex items-center gap-1.5 hover:text-gold-light transition-colors cursor-pointer group"
+                          title="Klik untuk lihat bukti bayar"
+                        >
+                          <Eye className="w-3.5 h-3.5 shrink-0" />
+                          <span className="font-mono truncate max-w-[90px] underline decoration-dotted underline-offset-2">
                             {order.payment_proof_path.split('/').pop() || 'bukti'}
                           </span>
-                        </span>
+                        </button>
                       ) : (
                         <span className="text-[10px] text-slate-600">Tidak Ada</span>
                       )}
@@ -214,6 +243,57 @@ export default function AdminOrders() {
                 ))}
               </tbody>
             </table>
+          </div>
+        </div>
+      )}
+
+      {/* Lightbox Preview Bukti Pembayaran */}
+      {previewProof && (
+        <div
+          className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4"
+          onClick={() => setPreviewProof(null)}
+        >
+          <div
+            className="relative max-w-lg w-full glass-panel rounded-2xl border border-obsidian-border p-4"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="flex items-center justify-between mb-3">
+              <span className="text-xs font-bold text-gold-light font-mono">{previewProof.orderCode}</span>
+              <button
+                type="button"
+                onClick={() => setPreviewProof(null)}
+                className="p-1.5 rounded-lg hover:bg-obsidian-800 text-slate-400 hover:text-slate-100 transition-colors cursor-pointer"
+                title="Tutup"
+              >
+                <X className="w-4 h-4" />
+              </button>
+            </div>
+            {proofLoading ? (
+              <div className="flex flex-col items-center justify-center gap-2 py-16">
+                <RefreshCw className="w-6 h-6 text-gold-primary animate-spin" />
+                <span className="text-xs text-slate-400">Memuat bukti bayar...</span>
+              </div>
+            ) : previewProof.url ? (
+              <img
+                src={previewProof.url}
+                alt="Bukti pembayaran"
+                className="w-full max-h-[70vh] object-contain rounded-xl border border-obsidian-border bg-obsidian-950"
+              />
+            ) : (
+              <div className="text-center text-xs text-red-400 py-10">
+                Gagal memuat gambar bukti bayar{previewProof.errorMsg ? `: ${previewProof.errorMsg}` : '.'}
+              </div>
+            )}
+            {previewProof.url && (
+              <a
+                href={previewProof.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mt-3 inline-flex items-center gap-1.5 text-[11px] text-gold-primary hover:text-gold-light font-semibold"
+              >
+                Buka di tab baru
+              </a>
+            )}
           </div>
         </div>
       )}

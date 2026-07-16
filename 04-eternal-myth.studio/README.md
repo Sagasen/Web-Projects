@@ -40,13 +40,13 @@
 
 ## 🖥️ Screenshot
 
-| Halaman Order | Dashboard Admin |
+| Halaman Utama | Preview Chat |
 |---|---|
-| ![Order](images/Halaman_Order.png) | ![Admin](images/Dashboard_Admin.png) |
+| ![Utama](images/halaman_utama.png) | ![Chat](images/preview_chat.png) |
 
-| Login Admin |
-|---|
-| ![Login](images/Login_Admin.png) |
+| Login Admin | Dashboard Admin |
+|---|---|
+| ![Login](images/login_admin.png) | ![Admin](images/dashboard_admin.png) |
 
 ---
 
@@ -198,7 +198,7 @@ Jika `.env.local` tidak diisi atau masih placeholder, aplikasi otomatis berjalan
 
 | Role | Email | Password |
 |---|---|---|
-| Admin | `admin` atau `admin@aeonstudio.com` | `admin` atau `admin123` |
+| Admin | `admin@gmail.com` | `admin123` |
 
 ---
 
