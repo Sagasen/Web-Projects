@@ -585,6 +585,15 @@ img { max-width: 100%; height: auto; display: block; }
   background: var(--gray-200);
   color: var(--gray-800);
 }
+.btn-outline {
+  background: transparent;
+  color: var(--green-700);
+  border-color: var(--green-300);
+}
+.btn-outline:hover:not(:disabled) {
+  background: var(--green-50);
+  border-color: var(--green-500);
+}
 .btn-sm {
   padding: var(--space-1) var(--space-3);
   font-size: var(--text-xs);

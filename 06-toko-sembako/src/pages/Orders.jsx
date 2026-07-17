@@ -4,6 +4,7 @@ import { useCustomerAuth } from '../context/CustomerAuthContext'
 import { useToast } from '../context/ToastContext'
 import { supabase } from '../lib/supabase'
 import { formatRupiah, getProductEmoji } from '../components/ProductCard'
+import { generateInvoicePDF } from '../lib/invoice'
 
 const localFormatDate = (isoString) => {
   if (!isoString) return '-'
@@ -65,6 +66,16 @@ export const Orders = () => {
       showToast('Gagal memuat riwayat pesanan', 'error')
     } finally {
       setLoadingOrders(false)
+    }
+  }
+
+  const handleDownloadInvoice = (order, e) => {
+    e.stopPropagation() // biar nggak ikut toggle expand/collapse
+    try {
+      generateInvoicePDF(order, customer)
+    } catch (err) {
+      console.error(err)
+      showToast('Gagal membuat invoice PDF', 'error')
     }
   }
 
@@ -195,7 +206,15 @@ export const Orders = () => {
                         <span style={{ fontSize: 'var(--text-xs)', color: 'var(--gray-400)' }}>
                           {items.length} item
                         </span>
-                        <span className="order-total">{formatRupiah(order.subtotal)}</span>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-3)' }}>
+                          <button
+                            className="btn btn-outline btn-sm"
+                            onClick={(e) => handleDownloadInvoice(order, e)}
+                          >
+                            📄 Unduh Invoice
+                          </button>
+                          <span className="order-total">{formatRupiah(order.subtotal)}</span>
+                        </div>
                       </div>
                     </div>
                   )

@@ -7,7 +7,7 @@ import { useToast } from '../context/ToastContext'
 import { supabase } from '../lib/supabase'
 import { formatRupiah } from '../components/ProductCard'
 
-const WA_NUMBER = '6281234567890'
+const WA_NUMBER = '6285742860240'
 
 export const Checkout = () => {
   const { customer, addresses } = useCustomerAuth()
@@ -173,14 +173,14 @@ export const Checkout = () => {
     return `*🛒 PESANAN BARU - TOKO SEMBAKO MBAH WIN*
 ----------------------------------------
 *Detail Pelanggan:*
-Nama : ${customerName}
-No. HP: ${customerPhone}
-Alamat: ${address}
+👤 Nama : ${customerName}
+📞 No. HP: ${customerPhone}
+📍 Alamat: ${address}
 
 *Daftar Belanjaan:*
 ${itemLines}----------------------------------------
-*TOTAL PEMBAYARAN:* ${formatRupiah(subtotal)}
-Metode Pembayaran: ${payLabel}
+*💰 TOTAL PEMBAYARAN:* ${formatRupiah(subtotal)}
+💵 Metode Pembayaran: ${payLabel}
 ${noteSection}----------------------------------------
 Mohon ditunggu konfirmasinya untuk total ongkir dan kesediaan barang ya kak! 🙏`
   }

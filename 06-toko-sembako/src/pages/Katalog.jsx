@@ -5,6 +5,7 @@ import { useToast } from '../context/ToastContext'
 import { useCart } from '../context/CartContext'
 import { supabase } from '../lib/supabase'
 import { formatRupiah } from '../components/ProductCard'
+import { fetchAiRecipeFromGemini } from '../lib/aiRecipe'
 
 const CATEGORY_ICONS = {
   'Beras & Tepung':   '🌾',
@@ -54,6 +55,16 @@ const RECIPE_MAP = {
       'Haluskan bersama sedikit terasi dan garam menggunakan cobek atau blender.',
       'Panaskan sedikit minyak, tumis sambal yang sudah dihaluskan hingga harum dan matang.',
       'Tambahkan gula sedikit untuk menyeimbangkan rasa, aduk rata, angkat.'
+    ]
+  },
+  'ayam goreng': {
+    title: 'Ayam Goreng Bumbu',
+    steps: [
+      'Haluskan bumbu: bawang merah, bawang putih, ketumbar, dan kunyit.',
+      'Lumuri ayam dengan bumbu halus, garam, dan sedikit air, diamkan minimal 30 menit agar meresap.',
+      'Rebus ayam berbumbu dengan sedikit air hingga air menyusut dan ayam matang.',
+      'Panaskan minyak goreng yang banyak hingga panas.',
+      'Goreng ayam hingga kuning kecokelatan dan renyah di luar, angkat dan tiriskan.'
     ]
   },
   'kue': {
@@ -204,7 +215,7 @@ export const Katalog = () => {
     return matchesCategory && matchesSearch
   })
 
-  // AI Recommendations handler — bahan dari produk toko, resep dari TheMealDB (gratis, tanpa API key)
+  // AI Recommendations handler — bahan dari produk toko, resep dari Gemini (AI+internet) dengan fallback resep lokal
   const handleAiAsk = async () => {
     const input = aiInput.toLowerCase().trim()
     if (!input) {
@@ -218,49 +229,13 @@ export const Katalog = () => {
     setAiRecipe(null)
 
     try {
-      // --- 1. Coba ambil resep dari TheMealDB (free API, tanpa key) ---
-      // Ekstrak kata kunci masakan (kata paling bermakna)
-      const searchTerms = input
-        .replace(/^(mau|bikin|masak|buat|cara|resep|aku|ingin|pengen|gimana)\s+/gi, '')
-        .trim()
-
       let foundRecipe = null
-      try {
-        const res = await fetch(
-          `https://www.themealdb.com/api/json/v1/1/search.php?s=${encodeURIComponent(searchTerms)}`,
-          { signal: AbortSignal.timeout(5000) }
-        )
-        const json = await res.json()
-        if (json.meals && json.meals.length > 0) {
-          const meal = json.meals[0]
-          // Kumpulkan bahan dari TheMealDB (strIngredient1..20)
-          const ingredients = []
-          for (let i = 1; i <= 20; i++) {
-            const ing = meal[`strIngredient${i}`]
-            const measure = meal[`strMeasure${i}`]
-            if (ing && ing.trim()) {
-              ingredients.push(measure && measure.trim() ? `${measure.trim()} ${ing.trim()}` : ing.trim())
-            }
-          }
-          // Ubah instruksi jadi array langkah bernomor
-          const steps = (meal.strInstructions || '')
-            .split(/\r?\n/)
-            .map(s => s.replace(/^STEP\s*\d+\.?\s*/i, '').trim())
-            .filter(s => s.length > 10)
-            .slice(0, 8)
 
-          foundRecipe = {
-            title: meal.strMeal,
-            source: 'TheMealDB',
-            ingredients,
-            steps
-          }
-        }
-      } catch (fetchErr) {
-        console.warn('TheMealDB fetch gagal, fallback ke lokal:', fetchErr.message)
-      }
+      // --- 1. Coba tanya ke AI (Gemini) yang bisa cari referensi resep di internet ---
+      // Kalau VITE_GEMINI_API_KEY belum diisi/gagal, foundRecipe tetap null → fallback ke resep lokal
+      foundRecipe = await fetchAiRecipeFromGemini(input)
 
-      // Fallback: pakai resep lokal kalau TheMealDB tidak ketemu
+      // --- 2. Fallback: pakai resep lokal (Bahasa Indonesia) kalau Gemini gagal/tidak aktif ---
       if (!foundRecipe) {
         const matchedKey = Object.keys(RECIPE_MAP).find(key => input.includes(key))
         if (matchedKey) {
@@ -270,14 +245,14 @@ export const Katalog = () => {
 
       setAiRecipe(foundRecipe)
 
-      // --- 2. Rekomendasi bahan dari produk toko (tidak berubah) ---
+      // --- 3. Rekomendasi bahan dari produk toko (tidak berubah) ---
       let matchedKeywords = new Set()
       for (const [key, words] of Object.entries(AI_KEYWORD_MAP)) {
         if (input.includes(key)) {
           words.forEach(w => matchedKeywords.add(w.toLowerCase()))
         }
       }
-      // Tambah pencocokan dari nama bahan resep TheMealDB
+      // Tambah pencocokan dari nama bahan resep (Gemini/lokal)
       if (foundRecipe?.ingredients) {
         foundRecipe.ingredients.forEach(ing => {
           const ingLower = ing.toLowerCase()
@@ -405,9 +380,9 @@ export const Katalog = () => {
                   >
                     <p style={{ fontWeight: 800, fontSize: 'var(--text-base)', marginBottom: '8px' }}>
                       📖 {aiRecipe.title}
-                      {aiRecipe.source === 'TheMealDB' && (
+                      {aiRecipe.source && aiRecipe.source !== 'lokal' && (
                         <span style={{ fontSize: '10px', fontWeight: 400, opacity: 0.75, marginLeft: '8px' }}>
-                          via TheMealDB
+                          via {aiRecipe.source}
                         </span>
                       )}
                     </p>
