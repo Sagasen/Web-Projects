@@ -67,6 +67,24 @@ const RECIPE_MAP = {
       'Goreng ayam hingga kuning kecokelatan dan renyah di luar, angkat dan tiriskan.'
     ]
   },
+  'ayam bakar': {
+    title: 'Ayam Bakar Kecap',
+    steps: [
+      'Haluskan bumbu: bawang merah, bawang putih, dan ketumbar.',
+      'Rebus ayam bersama bumbu halus, garam, dan sedikit air hingga ayam empuk dan air menyusut.',
+      'Campurkan kecap manis dengan sedikit air untuk olesan.',
+      'Bakar/panggang ayam sambil sesekali dioles campuran kecap hingga kecokelatan dan harum di semua sisi.'
+    ]
+  },
+  'telur goreng': {
+    title: 'Telur Goreng Sederhana',
+    steps: [
+      'Panaskan minyak secukupnya di wajan dengan api sedang.',
+      'Pecahkan telur langsung ke wajan panas.',
+      'Taburi sedikit garam secukupnya di atasnya.',
+      'Goreng hingga bagian bawah kecokelatan dan renyah (atau balik sebentar kalau suka matang merata), angkat dan sajikan.'
+    ]
+  },
   'kue': {
     title: 'Bolu Kukus Sederhana',
     steps: [
@@ -244,6 +262,10 @@ export const Katalog = () => {
       }
 
       setAiRecipe(foundRecipe)
+
+      if (!foundRecipe) {
+        showToast('Resep untuk itu belum tersedia, tapi ini rekomendasi bahannya ya!', 'warning')
+      }
 
       // --- 3. Rekomendasi bahan dari produk toko (tidak berubah) ---
       let matchedKeywords = new Set()

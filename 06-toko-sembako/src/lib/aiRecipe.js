@@ -1,5 +1,5 @@
-// Asisten resep berbasis Gemini API (Google) — bisa cari referensi resep di internet
-// (pakai fitur "grounding" / google_search) lalu balas dalam Bahasa Indonesia.
+// Asisten resep berbasis Gemini API (Google) — menjawab pakai pengetahuan bawaan modelnya sendiri
+// (fitur pencarian internet/grounding dimatikan karena kuotanya sangat kecil di free tier),
 //
 // Butuh API key gratis dari https://aistudio.google.com/apikey
 // Simpan di file .env sebagai: VITE_GEMINI_API_KEY=xxxxxxxx
@@ -16,8 +16,8 @@ const GEMINI_MODEL = 'gemini-2.0-flash'
 const GEMINI_URL = `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent?key=${GEMINI_API_KEY}`
 
 const SYSTEM_PROMPT = `Kamu adalah asisten belanja untuk toko sembako online bernama "Mbah Win".
-Tugasmu: kalau user cerita mau masak apa, carikan 1 resep yang paling cocok dan populer
-(boleh cari referensi terbaru di internet), lalu balas HANYA dengan JSON valid seperti
+Tugasmu: kalau user cerita mau masak apa, berikan 1 resep yang paling cocok dan populer
+berdasarkan pengetahuanmu, lalu balas HANYA dengan JSON valid seperti
 format di bawah ini, TANPA teks lain, TANPA markdown code block, dan SELALU dalam
 Bahasa Indonesia (termasuk nama bahan dan langkah memasak), bahasa yang sederhana dan
 mudah dimengerti karena banyak penggunanya orang tua:
@@ -46,7 +46,8 @@ export const fetchAiRecipeFromGemini = async (userInput) => {
         contents: [
           { role: 'user', parts: [{ text: `${SYSTEM_PROMPT}\n\nUser mau masak: "${userInput}"` }] }
         ],
-        tools: [{ google_search: {} }], // aktifkan pencarian internet (grounding)
+        tools: [], // grounding (google_search) dimatikan dulu — kuotanya sangat kecil di free tier & sering kena 429.
+                   // Gemini tetap jawab pakai pengetahuan bawaannya sendiri (masih cukup andal untuk resep umum).
         generationConfig: { temperature: 0.4 }
       })
     })
@@ -65,7 +66,7 @@ export const fetchAiRecipeFromGemini = async (userInput) => {
 
     return {
       title: parsed.title,
-      source: 'AI (internet)',
+      source: 'AI (Gemini)',
       ingredients: Array.isArray(parsed.ingredients) ? parsed.ingredients : [],
       steps: Array.isArray(parsed.steps) ? parsed.steps : []
     }
