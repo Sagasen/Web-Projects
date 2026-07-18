@@ -4,7 +4,7 @@
 
 **Kelola toko lebih mudah, lebih rapi, lebih pintar — dengan bantuan AI.**
 
-[![Live Demo](https://img.shields.io/badge/%F0%9F%9F%A2_Live_Demo-toko--sembako--mbah--win.vercel.app-green?style=for-the-badge)](https://toko-sembako-mbah-win.vercel.app)
+[![Live Demo](https://img.shields.io/badge/%F0%9F%9F%A2_Live_Demo-platform--ecommerce--umkm.vercel.app-green?style=for-the-badge)](https://platform-ecommerce-umkm.vercel.app)
 [![React](https://img.shields.io/badge/React-18-61DAFB?style=for-the-badge&logo=react)](https://reactjs.org)
 [![Supabase](https://img.shields.io/badge/Supabase-Database-3ECF8E?style=for-the-badge&logo=supabase)](https://supabase.com)
 [![Gemini](https://img.shields.io/badge/Gemini-AI_API-8E75B2?style=for-the-badge&logo=googlegemini)](https://ai.google.dev)
@@ -184,6 +184,14 @@ git push origin main
 
 > 💡 Login admin (Kasir/Owner) dilakukan di halaman `/admin` (tidak ada link dari halaman publik).
 
+### Akun Demo
+
+| Role | Email / No. HP | Password |
+| --- | --- | --- |
+| Customer | 081234567890 | `customer` |
+| Kasir | kasir@gmail.com | `kasir123` |
+| Owner | owner@gmail.com | `owner123` |
+
 ---
 
 ## 📁 Struktur Project
@@ -243,4 +251,4 @@ git push origin main
 
 ⭐ Jangan lupa beri bintang jika project ini membantu!
 
-[![Live Demo](https://img.shields.io/badge/%F0%9F%9F%A2_Coba_Demo_Sekarang-green?style=flat-square)](https://toko-sembako-mbah-win.vercel.app)
+[![Live Demo](https://img.shields.io/badge/%F0%9F%9F%A2_Coba_Demo_Sekarang-green?style=flat-square)](https://platform-ecommerce-umkm.vercel.app)
