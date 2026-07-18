@@ -12,7 +12,7 @@
 // Supabase Edge Function (backend), supaya API key tidak pernah sampai ke browser.
 
 const GEMINI_API_KEY = import.meta.env.VITE_GEMINI_API_KEY
-const GEMINI_MODEL = 'gemini-2.5-flash-lite' // dipilih karena akun ini punya jatah kuota untuk model ini (cek AI Studio > Rate Limit)
+const GEMINI_MODEL = 'gemini-flash-latest' // pakai alias, karena versi spesifik (gemini-2.5-flash-lite) tetap 404 walau muncul di ListModels
 const GEMINI_URL = `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent?key=${GEMINI_API_KEY}`
 
 const SYSTEM_PROMPT = `Kamu adalah asisten belanja untuk toko sembako online bernama "Mbah Win".
