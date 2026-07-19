@@ -1,7 +1,7 @@
 import { createContext, useContext, useState, useEffect, useCallback } from 'react'
 
 const CartContext = createContext(null)
-const STORAGE_KEY = 'oriflame-cart'
+const STORAGE_KEY = 'reseller-cart'
 
 export function CartProvider({ children }) {
   const [items, setItems] = useState(() => {

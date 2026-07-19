@@ -15,6 +15,7 @@ import Loading from '../components/common/Loading'
 import ProductForm from '../components/admin/ProductForm'
 import PromoForm from '../components/admin/PromoForm'
 import { formatCurrency } from '../utils/formatCurrency'
+import { BRAND_INITIAL } from '../config/brand'
 import {
   getProducts,
   createProduct,
@@ -104,15 +105,15 @@ export default function AdminDashboardPage() {
       <header className="bg-white border-b border-gray-100 sticky top-0 z-40">
         <div className="max-w-6xl mx-auto px-4 h-14 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-full bg-oriflame flex items-center justify-center">
-              <span className="text-white font-bold text-xs">O</span>
+            <div className="w-8 h-8 rounded-full bg-brand flex items-center justify-center">
+              <span className="text-white font-bold text-xs">{BRAND_INITIAL}</span>
             </div>
             <span className="font-bold text-gray-800">Admin Panel</span>
           </div>
           <div className="flex items-center gap-2">
             <button
               onClick={() => navigate('/')}
-              className="flex items-center gap-1.5 text-sm text-gray-500 hover:text-oriflame px-3 py-1.5 rounded-lg hover:bg-gray-50"
+              className="flex items-center gap-1.5 text-sm text-gray-500 hover:text-brand px-3 py-1.5 rounded-lg hover:bg-gray-50"
             >
               <Home className="w-4 h-4" />
               <span className="hidden sm:inline">Katalog</span>
@@ -134,8 +135,8 @@ export default function AdminDashboardPage() {
             onClick={() => setTab('products')}
             className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
               tab === 'products'
-                ? 'bg-oriflame text-white'
-                : 'bg-white text-gray-600 border border-gray-200 hover:border-oriflame'
+                ? 'bg-brand text-white'
+                : 'bg-white text-gray-600 border border-gray-200 hover:border-brand'
             }`}
           >
             <Package className="w-4 h-4" />
@@ -145,8 +146,8 @@ export default function AdminDashboardPage() {
             onClick={() => setTab('promos')}
             className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
               tab === 'promos'
-                ? 'bg-oriflame text-white'
-                : 'bg-white text-gray-600 border border-gray-200 hover:border-oriflame'
+                ? 'bg-brand text-white'
+                : 'bg-white text-gray-600 border border-gray-200 hover:border-brand'
             }`}
           >
             <Tag className="w-4 h-4" />
@@ -162,7 +163,7 @@ export default function AdminDashboardPage() {
               <h2 className="text-lg font-semibold text-gray-800">Daftar Produk</h2>
               <button
                 onClick={() => setModal({ type: 'add-product' })}
-                className="flex items-center gap-2 bg-oriflame text-white text-sm font-semibold px-4 py-2 rounded-lg hover:bg-oriflame-dark transition-colors"
+                className="flex items-center gap-2 bg-brand text-white text-sm font-semibold px-4 py-2 rounded-lg hover:bg-brand-dark transition-colors"
               >
                 <Plus className="w-4 h-4" />
                 Tambah Produk
@@ -200,7 +201,7 @@ export default function AdminDashboardPage() {
                           </td>
                           <td className="px-4 py-3 text-gray-500">{product.category}</td>
                           <td className="px-4 py-3">
-                            <span className="font-medium text-oriflame">
+                            <span className="font-medium text-brand">
                               {formatCurrency(product.discountPrice ?? product.price)}
                             </span>
                           </td>
@@ -208,7 +209,7 @@ export default function AdminDashboardPage() {
                             <div className="flex items-center justify-end gap-2">
                               <button
                                 onClick={() => setModal({ type: 'edit-product', item: product })}
-                                className="p-1.5 text-gray-400 hover:text-oriflame hover:bg-oriflame-light rounded-lg transition-colors"
+                                className="p-1.5 text-gray-400 hover:text-brand hover:bg-brand-light rounded-lg transition-colors"
                               >
                                 <Pencil className="w-4 h-4" />
                               </button>
@@ -234,7 +235,7 @@ export default function AdminDashboardPage() {
               <h2 className="text-lg font-semibold text-gray-800">Daftar Promo</h2>
               <button
                 onClick={() => setModal({ type: 'add-promo' })}
-                className="flex items-center gap-2 bg-oriflame text-white text-sm font-semibold px-4 py-2 rounded-lg hover:bg-oriflame-dark transition-colors"
+                className="flex items-center gap-2 bg-brand text-white text-sm font-semibold px-4 py-2 rounded-lg hover:bg-brand-dark transition-colors"
               >
                 <Plus className="w-4 h-4" />
                 Tambah Promo
@@ -273,14 +274,14 @@ export default function AdminDashboardPage() {
                         </span>
                       </div>
                       {promo.discount && (
-                        <p className="text-oriflame text-sm font-medium mt-1">
+                        <p className="text-brand text-sm font-medium mt-1">
                           Diskon {promo.discount}%
                         </p>
                       )}
                       <div className="flex gap-2 mt-3">
                         <button
                           onClick={() => setModal({ type: 'edit-promo', item: promo })}
-                          className="text-xs text-oriflame hover:underline"
+                          className="text-xs text-brand hover:underline"
                         >
                           Edit
                         </button>

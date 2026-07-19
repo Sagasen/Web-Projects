@@ -8,7 +8,7 @@ export function getWhatsAppUrl(message) {
 export function buildSingleOrderMessage(product) {
   const price = product.discountPrice ?? product.price
   return (
-    `Halo, saya ingin memesan produk Oriflame:\n\n` +
+    `Halo, saya ingin memesan produk:\n\n` +
     `*${product.name}*\n` +
     `Kategori: ${product.category}\n` +
     `Harga: Rp ${price.toLocaleString('id-ID')}\n` +
@@ -27,7 +27,7 @@ export function buildCartOrderMessage(items, total) {
   )
 
   return (
-    `Halo, saya ingin memesan produk Oriflame:\n\n` +
+    `Halo, saya ingin memesan produk:\n\n` +
     lines.join('\n') +
     `\n\n*Total: Rp ${total.toLocaleString('id-ID')}*\n\n` +
     `Apakah produk ini tersedia?\n\n`+

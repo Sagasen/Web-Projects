@@ -77,9 +77,9 @@ export default function ProductForm({ initial, onSubmit, onCancel, submitting })
             </button>
           </div>
         ) : (
-          <label className="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed border-gray-200 rounded-xl cursor-pointer hover:border-oriflame transition-colors">
+          <label className="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed border-gray-200 rounded-xl cursor-pointer hover:border-brand transition-colors">
             {uploading ? (
-              <Loader2 className="w-8 h-8 text-oriflame animate-spin" />
+              <Loader2 className="w-8 h-8 text-brand animate-spin" />
             ) : (
               <>
                 <Upload className="w-8 h-8 text-gray-400 mb-2" />
@@ -103,7 +103,7 @@ export default function ProductForm({ initial, onSubmit, onCancel, submitting })
           name="name"
           value={form.name}
           onChange={handleChange}
-          className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-oriflame/30 focus:border-oriflame"
+          className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand/30 focus:border-brand"
           placeholder="Contoh: Optimals Hydra Radiance"
         />
       </div>
@@ -115,7 +115,7 @@ export default function ProductForm({ initial, onSubmit, onCancel, submitting })
             name="category"
             value={form.category}
             onChange={handleChange}
-            className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-oriflame/30 focus:border-oriflame"
+            className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand/30 focus:border-brand"
           >
             {CATEGORIES.map((cat) => (
               <option key={cat} value={cat}>{cat}</option>
@@ -128,7 +128,7 @@ export default function ProductForm({ initial, onSubmit, onCancel, submitting })
             name="status"
             value={form.status}
             onChange={handleChange}
-            className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-oriflame/30 focus:border-oriflame"
+            className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand/30 focus:border-brand"
           >
             {STATUS_OPTIONS.map((s) => (
               <option key={s} value={s}>{s}</option>
@@ -145,7 +145,7 @@ export default function ProductForm({ initial, onSubmit, onCancel, submitting })
             type="number"
             value={form.price}
             onChange={handleChange}
-            className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-oriflame/30 focus:border-oriflame"
+            className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand/30 focus:border-brand"
             placeholder="150000"
           />
         </div>
@@ -156,7 +156,7 @@ export default function ProductForm({ initial, onSubmit, onCancel, submitting })
             type="number"
             value={form.discountPrice}
             onChange={handleChange}
-            className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-oriflame/30 focus:border-oriflame"
+            className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand/30 focus:border-brand"
             placeholder="120000"
           />
         </div>
@@ -169,7 +169,7 @@ export default function ProductForm({ initial, onSubmit, onCancel, submitting })
           value={form.description}
           onChange={handleChange}
           rows={5}
-          className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-oriflame/30 focus:border-oriflame resize-y"
+          className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand/30 focus:border-brand resize-y"
           placeholder="Deskripsi produk (tekan Enter untuk baris baru)..."
         />
       </div>
@@ -178,7 +178,7 @@ export default function ProductForm({ initial, onSubmit, onCancel, submitting })
         <button
           type="submit"
           disabled={submitting || uploading}
-          className="flex-1 bg-oriflame text-white font-semibold py-2.5 rounded-lg hover:bg-oriflame-dark transition-colors disabled:opacity-50"
+          className="flex-1 bg-brand text-white font-semibold py-2.5 rounded-lg hover:bg-brand-dark transition-colors disabled:opacity-50"
         >
           {submitting ? 'Menyimpan...' : 'Simpan'}
         </button>

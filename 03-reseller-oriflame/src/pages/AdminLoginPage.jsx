@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Lock, Mail, AlertCircle } from 'lucide-react'
 import { useAuth } from '../contexts/AuthContext'
+import { BRAND_INITIAL } from '../config/brand'
 
 export default function AdminLoginPage() {
   const [email, setEmail] = useState('')
@@ -26,11 +27,11 @@ export default function AdminLoginPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-oriflame-light to-white flex items-center justify-center px-4">
+    <div className="min-h-screen bg-gradient-to-br from-brand-light to-white flex items-center justify-center px-4">
       <div className="w-full max-w-md">
         <div className="text-center mb-8">
-          <div className="w-16 h-16 rounded-full bg-oriflame flex items-center justify-center mx-auto mb-4">
-            <span className="text-white font-bold text-2xl">O</span>
+          <div className="w-16 h-16 rounded-full bg-brand flex items-center justify-center mx-auto mb-4">
+            <span className="text-white font-bold text-2xl">{BRAND_INITIAL}</span>
           </div>
           <h1 className="text-2xl font-bold text-gray-800">Admin Panel</h1>
           <p className="text-gray-500 text-sm mt-1">Masuk untuk mengelola katalog produk</p>
@@ -56,7 +57,7 @@ export default function AdminLoginPage() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
-                className="w-full pl-10 pr-3 py-2.5 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-oriflame/30 focus:border-oriflame"
+                className="w-full pl-10 pr-3 py-2.5 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand/30 focus:border-brand"
                 placeholder="admin@email.com"
               />
             </div>
@@ -71,7 +72,7 @@ export default function AdminLoginPage() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
-                className="w-full pl-10 pr-3 py-2.5 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-oriflame/30 focus:border-oriflame"
+                className="w-full pl-10 pr-3 py-2.5 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand/30 focus:border-brand"
                 placeholder="••••••••"
               />
             </div>
@@ -80,7 +81,7 @@ export default function AdminLoginPage() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-oriflame text-white font-semibold py-3 rounded-xl hover:bg-oriflame-dark transition-colors disabled:opacity-50"
+            className="w-full bg-brand text-white font-semibold py-3 rounded-xl hover:bg-brand-dark transition-colors disabled:opacity-50"
           >
             {loading ? 'Masuk...' : 'Masuk'}
           </button>

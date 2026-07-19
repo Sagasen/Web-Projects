@@ -24,7 +24,7 @@ export default function CartPage() {
           action={
             <Link
               to="/"
-              className="inline-block bg-oriflame text-white font-semibold px-6 py-2.5 rounded-xl hover:bg-oriflame-dark transition-colors"
+              className="inline-block bg-brand text-white font-semibold px-6 py-2.5 rounded-xl hover:bg-brand-dark transition-colors"
             >
               Lihat Katalog
             </Link>
@@ -52,7 +52,7 @@ export default function CartPage() {
               />
               <div className="flex-1 min-w-0">
                 <h3 className="font-semibold text-gray-800 text-sm truncate">{item.name}</h3>
-                <p className="text-oriflame font-bold mt-1">{formatCurrency(item.price)}</p>
+                <p className="text-brand font-bold mt-1">{formatCurrency(item.price)}</p>
 
                 <div className="flex items-center justify-between mt-3">
                   <div className="flex items-center gap-1 border border-gray-200 rounded-lg">
@@ -93,7 +93,7 @@ export default function CartPage() {
         <div className="bg-white rounded-2xl p-6 border border-gray-100 shadow-sm sticky bottom-4">
           <div className="flex items-center justify-between mb-4">
             <span className="text-gray-600">Total ({items.length} item)</span>
-            <span className="text-2xl font-bold text-oriflame">{formatCurrency(total)}</span>
+            <span className="text-2xl font-bold text-brand">{formatCurrency(total)}</span>
           </div>
           <button
             onClick={handleWhatsApp}

@@ -37,7 +37,7 @@ export default function ProductDetailPage() {
       <Layout>
         <div className="max-w-6xl mx-auto px-4 py-16 text-center">
           <p className="text-gray-500 mb-4">Produk tidak ditemukan.</p>
-          <Link to="/" className="text-oriflame font-medium hover:underline">
+          <Link to="/" className="text-brand font-medium hover:underline">
             Kembali ke beranda
           </Link>
         </div>
@@ -58,7 +58,7 @@ export default function ProductDetailPage() {
       <div className="max-w-6xl mx-auto px-4 py-6">
         <Link
           to="/"
-          className="inline-flex items-center gap-1 text-sm text-gray-500 hover:text-oriflame mb-6 transition-colors"
+          className="inline-flex items-center gap-1 text-sm text-gray-500 hover:text-brand mb-6 transition-colors"
         >
           <ArrowLeft className="w-4 h-4" />
           Kembali
@@ -74,7 +74,7 @@ export default function ProductDetailPage() {
           </div>
 
           <div className="flex flex-col">
-            <span className="text-sm text-oriflame font-medium mb-2">{product.category}</span>
+            <span className="text-sm text-brand font-medium mb-2">{product.category}</span>
             <h1 className="text-2xl sm:text-3xl font-bold text-gray-800 mb-4">{product.name}</h1>
 
             <div className="mb-6">
@@ -83,11 +83,11 @@ export default function ProductDetailPage() {
                   {formatCurrency(product.price)}
                 </span>
               )}
-              <span className="text-3xl font-bold text-oriflame">
+              <span className="text-3xl font-bold text-brand">
                 {formatCurrency(displayPrice)}
               </span>
               {hasDiscount && (
-                <span className="ml-2 text-sm bg-oriflame-light text-oriflame px-2 py-0.5 rounded-full font-medium">
+                <span className="ml-2 text-sm bg-brand-light text-brand px-2 py-0.5 rounded-full font-medium">
                   Hemat {Math.round((1 - displayPrice / product.price) * 100)}%
                 </span>
               )}
@@ -121,7 +121,7 @@ export default function ProductDetailPage() {
             <div className="flex flex-col sm:flex-row gap-3 mt-auto">
               <button
                 onClick={() => addToCart(product, quantity)}
-                className="flex-1 flex items-center justify-center gap-2 bg-oriflame-light text-oriflame font-semibold py-3 px-6 rounded-xl hover:bg-oriflame hover:text-white transition-colors"
+                className="flex-1 flex items-center justify-center gap-2 bg-brand-light text-brand font-semibold py-3 px-6 rounded-xl hover:bg-brand hover:text-white transition-colors"
               >
                 <ShoppingCart className="w-5 h-5" />
                 Tambah ke Keranjang

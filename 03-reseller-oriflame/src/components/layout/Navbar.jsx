@@ -1,6 +1,7 @@
 import { Link, useLocation } from 'react-router-dom'
 import { ShoppingBag, Tag, Home, Shield } from 'lucide-react'
 import { useCart } from '../../contexts/CartContext'
+import { BRAND_NAME, BRAND_INITIAL, BRAND_SUBTITLE } from '../../config/brand'
 
 const navLinks = [
   { to: '/', label: 'Beranda', icon: Home },
@@ -16,12 +17,12 @@ export default function Navbar() {
     <header className="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-gray-100 shadow-sm">
       <div className="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
         <Link to="/" className="flex items-center gap-2">
-          <div className="w-9 h-9 rounded-full bg-oriflame flex items-center justify-center">
-            <span className="text-white font-bold text-sm">O</span>
+          <div className="w-9 h-9 rounded-full bg-brand flex items-center justify-center">
+            <span className="text-white font-bold text-sm">{BRAND_INITIAL}</span>
           </div>
           <div>
-            <span className="font-bold text-oriflame text-lg leading-none block">Oriflame</span>
-            <span className="text-xs text-gray-400 leading-none">Katalog Produk</span>
+            <span className="font-bold text-brand text-lg leading-none block">{BRAND_NAME}</span>
+            <span className="text-xs text-gray-400 leading-none">{BRAND_SUBTITLE}</span>
           </div>
         </Link>
 
@@ -35,14 +36,14 @@ export default function Navbar() {
                 to={to}
                 className={`relative flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
                   isActive
-                    ? 'bg-oriflame-light text-oriflame'
-                    : 'text-gray-600 hover:bg-gray-50 hover:text-oriflame'
+                    ? 'bg-brand-light text-brand'
+                    : 'text-gray-600 hover:bg-gray-50 hover:text-brand'
                 }`}
               >
                 <Icon className="w-4 h-4" />
                 <span className="hidden sm:inline">{label}</span>
                 {isCart && itemCount > 0 && (
-                  <span className="absolute -top-1 -right-1 w-5 h-5 bg-oriflame text-white text-xs rounded-full flex items-center justify-center font-bold">
+                  <span className="absolute -top-1 -right-1 w-5 h-5 bg-brand text-white text-xs rounded-full flex items-center justify-center font-bold">
                     {itemCount > 9 ? '9+' : itemCount}
                   </span>
                 )}
@@ -51,7 +52,7 @@ export default function Navbar() {
           })}
           <Link
             to="/admin"
-            className="flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-oriflame hover:bg-gray-50 transition-colors"
+            className="flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-brand hover:bg-gray-50 transition-colors"
             title="Admin"
           >
             <Shield className="w-4 h-4" />

@@ -1,0 +1,25 @@
+# dependencies
+node_modules/
+
+# build output
+dist/
+dist-ssr/
+
+# env files (jangan pernah commit kredensial asli)
+.env
+.env.local
+.env.*.local
+
+# catatan: kunci rahasia (service role key) disimpan di .env, bukan file terpisah
+
+# logs
+*.log
+npm-debug.log*
+
+# editor
+.vscode/*
+!.vscode/extensions.json
+.idea
+
+# os
+.DS_Store

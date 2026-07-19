@@ -21,7 +21,7 @@ export default function HomePage() {
         setProducts(productData)
         setPromos(promoData)
       } catch {
-        setError('Gagal memuat data. Periksa koneksi dan konfigurasi Firebase.')
+        setError('Gagal memuat data. Periksa koneksi dan konfigurasi Supabase.')
       } finally {
         setLoading(false)
       }

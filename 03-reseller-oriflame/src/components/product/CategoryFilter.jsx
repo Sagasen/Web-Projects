@@ -7,8 +7,8 @@ export default function CategoryFilter({ selected, onChange }) {
         onClick={() => onChange('')}
         className={`shrink-0 px-4 py-2 rounded-full text-sm font-medium transition-colors ${
           selected === ''
-            ? 'bg-oriflame text-white'
-            : 'bg-white text-gray-600 border border-gray-200 hover:border-oriflame hover:text-oriflame'
+            ? 'bg-brand text-white'
+            : 'bg-white text-gray-600 border border-gray-200 hover:border-brand hover:text-brand'
         }`}
       >
         Semua
@@ -19,8 +19,8 @@ export default function CategoryFilter({ selected, onChange }) {
           onClick={() => onChange(cat)}
           className={`shrink-0 px-4 py-2 rounded-full text-sm font-medium transition-colors ${
             selected === cat
-              ? 'bg-oriflame text-white'
-              : 'bg-white text-gray-600 border border-gray-200 hover:border-oriflame hover:text-oriflame'
+              ? 'bg-brand text-white'
+              : 'bg-white text-gray-600 border border-gray-200 hover:border-brand hover:text-brand'
           }`}
         >
           {cat}

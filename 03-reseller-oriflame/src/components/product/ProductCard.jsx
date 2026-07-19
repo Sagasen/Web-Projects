@@ -28,7 +28,7 @@ export default function ProductCard({ product }) {
         />
         <div className="absolute top-2 left-2 flex flex-col gap-1">
           {hasDiscount && (
-            <span className="bg-oriflame text-white text-xs font-bold px-2 py-1 rounded-full">
+            <span className="bg-brand text-white text-xs font-bold px-2 py-1 rounded-full">
               Diskon
             </span>
           )}
@@ -43,7 +43,7 @@ export default function ProductCard({ product }) {
       </div>
 
       <div className="p-4 flex flex-col flex-1">
-        <span className="text-xs text-oriflame font-medium mb-1">{product.category}</span>
+        <span className="text-xs text-brand font-medium mb-1">{product.category}</span>
         <h3 className="font-semibold text-gray-800 text-sm leading-snug mb-2 line-clamp-2 flex-1">
           {product.name}
         </h3>
@@ -54,11 +54,11 @@ export default function ProductCard({ product }) {
                 {formatCurrency(product.price)}
               </span>
             )}
-            <span className="font-bold text-oriflame">{formatCurrency(displayPrice)}</span>
+            <span className="font-bold text-brand">{formatCurrency(displayPrice)}</span>
           </div>
           <button
             onClick={handleAddToCart}
-            className="w-8 h-8 rounded-full bg-oriflame-light text-oriflame flex items-center justify-center hover:bg-oriflame hover:text-white transition-colors"
+            className="w-8 h-8 rounded-full bg-brand-light text-brand flex items-center justify-center hover:bg-brand hover:text-white transition-colors"
             aria-label="Tambah ke keranjang"
           >
             <ShoppingCart className="w-4 h-4" />

@@ -24,7 +24,7 @@ export default function PromoPage() {
         <div className="mb-8">
           <h1 className="text-2xl font-bold text-gray-800 mb-2">Promo & Diskon</h1>
           <p className="text-gray-500 text-sm">
-            Dapatkan penawaran terbaik untuk produk Oriflame favorit Anda
+            Dapatkan penawaran terbaik untuk produk favorit Anda
           </p>
         </div>
 
@@ -73,7 +73,7 @@ function PromoCard({ promo, active = false }) {
   return (
     <div
       className={`bg-white rounded-2xl overflow-hidden border shadow-sm ${
-        active ? 'border-oriflame/30' : 'border-gray-100 opacity-70'
+        active ? 'border-brand/30' : 'border-gray-100 opacity-70'
       }`}
     >
       {promo.imageUrl && (
@@ -85,7 +85,7 @@ function PromoCard({ promo, active = false }) {
         <div className="flex items-start justify-between gap-3 mb-2">
           <h3 className="font-bold text-gray-800">{promo.title}</h3>
           {promo.discount && (
-            <span className="shrink-0 flex items-center gap-1 bg-oriflame text-white text-xs font-bold px-2.5 py-1 rounded-full">
+            <span className="shrink-0 flex items-center gap-1 bg-brand text-white text-xs font-bold px-2.5 py-1 rounded-full">
               <Percent className="w-3 h-3" />
               {promo.discount}%
             </span>

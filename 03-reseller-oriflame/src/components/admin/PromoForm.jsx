@@ -86,9 +86,9 @@ export default function PromoForm({ initial, onSubmit, onCancel, submitting }) {
             </button>
           </div>
         ) : (
-          <label className="flex flex-col items-center justify-center w-full h-24 border-2 border-dashed border-gray-200 rounded-xl cursor-pointer hover:border-oriflame transition-colors">
+          <label className="flex flex-col items-center justify-center w-full h-24 border-2 border-dashed border-gray-200 rounded-xl cursor-pointer hover:border-brand transition-colors">
             {uploading ? (
-              <Loader2 className="w-6 h-6 text-oriflame animate-spin" />
+              <Loader2 className="w-6 h-6 text-brand animate-spin" />
             ) : (
               <>
                 <Upload className="w-6 h-6 text-gray-400 mb-1" />
@@ -112,7 +112,7 @@ export default function PromoForm({ initial, onSubmit, onCancel, submitting }) {
           name="title"
           value={form.title}
           onChange={handleChange}
-          className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-oriflame/30 focus:border-oriflame"
+          className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand/30 focus:border-brand"
           placeholder="Contoh: Diskon Skincare 20%"
         />
       </div>
@@ -124,7 +124,7 @@ export default function PromoForm({ initial, onSubmit, onCancel, submitting }) {
           value={form.description}
           onChange={handleChange}
           rows={3}
-          className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-oriflame/30 focus:border-oriflame resize-none"
+          className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand/30 focus:border-brand resize-none"
         />
       </div>
 
@@ -136,7 +136,7 @@ export default function PromoForm({ initial, onSubmit, onCancel, submitting }) {
             type="number"
             value={form.discount}
             onChange={handleChange}
-            className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-oriflame/30 focus:border-oriflame"
+            className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand/30 focus:border-brand"
             placeholder="20"
           />
         </div>
@@ -147,7 +147,7 @@ export default function PromoForm({ initial, onSubmit, onCancel, submitting }) {
             type="date"
             value={form.validUntil}
             onChange={handleChange}
-            className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-oriflame/30 focus:border-oriflame"
+            className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand/30 focus:border-brand"
           />
         </div>
       </div>
@@ -158,7 +158,7 @@ export default function PromoForm({ initial, onSubmit, onCancel, submitting }) {
           type="checkbox"
           checked={form.active}
           onChange={handleChange}
-          className="w-4 h-4 accent-oriflame"
+          className="w-4 h-4 accent-brand"
         />
         <span className="text-sm text-gray-700">Promo aktif</span>
       </label>
@@ -167,7 +167,7 @@ export default function PromoForm({ initial, onSubmit, onCancel, submitting }) {
         <button
           type="submit"
           disabled={submitting || uploading}
-          className="flex-1 bg-oriflame text-white font-semibold py-2.5 rounded-lg hover:bg-oriflame-dark transition-colors disabled:opacity-50"
+          className="flex-1 bg-brand text-white font-semibold py-2.5 rounded-lg hover:bg-brand-dark transition-colors disabled:opacity-50"
         >
           {submitting ? 'Menyimpan...' : 'Simpan'}
         </button>

@@ -1,9 +1,9 @@
 @import "tailwindcss";
 
 @theme {
-  --color-oriflame: #C84B8A;
-  --color-oriflame-dark: #A83A72;
-  --color-oriflame-light: #F5E6EE;
+  --color-brand: #C84B8A;
+  --color-brand-dark: #A83A72;
+  --color-brand-light: #F5E6EE;
   --font-sans: "Inter", system-ui, sans-serif;
 }
 
