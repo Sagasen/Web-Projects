@@ -1,247 +1,145 @@
-# 01 Kasir - Google Apps Script
+<div align="center">
 
-Project **01 Kasir** adalah aplikasi kasir sederhana berbasis **Google Apps Script** dan **Google Spreadsheet**.
-Aplikasi ini dibuat untuk membantu proses pencatatan transaksi melalui tampilan web yang terhubung langsung dengan data di Spreadsheet.
+# 🧾 Kasir Digital UMKM Modern
+### Sistem Kasir & Pencatatan Keuangan Sederhana untuk UMKM
 
----
+**Catat transaksi, kelola produk (lengkap dengan gambar), dan pantau pengeluaran dalam satu aplikasi ringan — langsung dari Google Sheets.**
 
-## Tech Stack
+[![Live App](https://img.shields.io/badge/🌐_Live_App-Apps_Script-4285F4?style=for-the-badge&logo=googleappsscript&logoColor=white)](https://script.google.com/macros/s/AKfycbw7Iq0QTnEt2q7AuC0Kj2vLrNMP8d9yufRJtp2cYHBSjiyBZkMUbRbGgjfFshyGepHi/exec)
+[![Database](https://img.shields.io/badge/Database-Google_Sheets-34A853?style=for-the-badge&logo=googlesheets&logoColor=white)](https://docs.google.com/spreadsheets/d/1BJjrzxlBJAS9kQjDUhveEDbL0CrzNV2lJsSAe498v6U/edit?usp=sharing)
+[![Backend](https://img.shields.io/badge/Backend-Google_Apps_Script-yellow?style=for-the-badge&logo=googleappsscript&logoColor=black)](https://script.google.com)
 
-| Bagian          | Teknologi             |
-| --------------- | --------------------- |
-| Backend         | Google Apps Script    |
-| Database        | Google Spreadsheet    |
-| Frontend        | HTML, CSS, JavaScript |
-| Version Control | Git + GitHub          |
-| Sync Tool       | clasp                 |
+</div>
 
 ---
 
-## Struktur File
+## 📌 Tentang Aplikasi
 
-```text
-01-kasir/
-├── .clasp.json
-├── appsscript.json
-├── Kode.js
-├── index.html
-├── script.html
-├── style.html
-└── README.md
-```
+**Kasir Digital UMKM Modern** adalah sistem kasir ringan untuk pelaku usaha kecil (warung, kafe, toko) yang membantu mencatat transaksi penjualan, mengelola daftar produk lengkap dengan gambar, dan mencatat pengeluaran operasional — tanpa perlu instalasi, tanpa langganan software kasir berbayar.
 
-### Penjelasan File
+Seluruh sistem berjalan di atas **Google Apps Script** sebagai backend dan **Google Sheets** sebagai database — tanpa hosting berbayar, tanpa server terpisah, cukup akun Google.
 
-| File              | Fungsi                                                                                                                  |
-| ----------------- | ----------------------------------------------------------------------------------------------------------------------- |
-| `Kode.js`         | File utama Google Apps Script, biasanya berisi fungsi server-side seperti `doGet()`, akses Spreadsheet, dan proses data |
-| `index.html`      | Halaman utama aplikasi web                                                                                              |
-| `script.html`     | JavaScript frontend untuk interaksi halaman                                                                             |
-| `style.html`      | CSS/tampilan aplikasi                                                                                                   |
-| `appsscript.json` | Konfigurasi project Apps Script                                                                                         |
-| `.clasp.json`     | Konfigurasi koneksi project lokal dengan Google Apps Script                                                             |
+> Cocok untuk usaha kecil yang selama ini masih catat transaksi manual di buku atau nota, dan butuh cara cepat untuk tahu omzet & pengeluaran tanpa ribet.
 
 ---
 
-## Fitur Utama
+## ✨ Fitur Utama
 
-* Aplikasi kasir berbasis web
-* Terhubung dengan Google Spreadsheet
-* Menggunakan Google Apps Script sebagai backend
-* Tampilan frontend menggunakan HTML, CSS, dan JavaScript
-* Project dapat disinkronkan dengan GitHub
-* Mendukung update kode menggunakan `clasp pull` dan `clasp push`
-
----
-
-## Cara Menjalankan Project
-
-Project ini berjalan melalui Google Apps Script.
-
-1. Buka Google Spreadsheet yang terhubung dengan project ini.
-2. Masuk ke menu:
-
-```text
-Extensions → Apps Script
-```
-
-3. Jalankan atau deploy sebagai Web App melalui menu:
-
-```text
-Deploy → New deployment
-```
-
-4. Pilih tipe deployment:
-
-```text
-Web app
-```
-
-5. Atur akses sesuai kebutuhan, lalu klik **Deploy**.
+- 🛒 **Menu Kasir/Transaksi** — catat penjualan harian dengan cepat, transaksi bisa disimpan sekaligus dalam satu batch (`simpanTransaksi`)
+- 📦 **Menu Produk** — kelola daftar produk (ID, nama, harga, stok) lengkap dengan **gambar produk** (URL gambar dari Google Drive) yang tampil langsung di menu kasir
+- 💸 **Menu Pengeluaran** — catat biaya operasional (belanja bahan, listrik, dll) supaya arus kas lebih jelas
+- 📊 **Menu Rekap** — lihat ringkasan omzet, pengeluaran, dan laba dalam satu tampilan
+- 🚀 **Tanpa login** — langsung akses dan pakai, tidak perlu setup akun
+- 🗂️ Semua data tersimpan otomatis di Google Sheets, bisa dicek/diedit manual kapan saja
+- 📱 Tampilan responsif, bisa diakses dari HP maupun desktop cukup lewat browser
 
 ---
 
-## Sinkronisasi dengan Apps Script
+## 🖥️ Live Demo
 
-Project ini menggunakan `clasp` untuk menghubungkan kode lokal dengan Google Apps Script.
+| | |
+|---|---|
+| **Aplikasi** | [Buka Kasir Digital UMKM Modern](https://script.google.com/macros/s/AKfycbw7Iq0QTnEt2q7AuC0Kj2vLrNMP8d9yufRJtp2cYHBSjiyBZkMUbRbGgjfFshyGepHi/exec) |
+| **Database (Spreadsheet)** | [Sistem Kasir](https://docs.google.com/spreadsheets/d/1BJjrzxlBJAS9kQjDUhveEDbL0CrzNV2lJsSAe498v6U/edit?usp=sharing) |
 
-### Install clasp
-
-```bash
-npm install -g @google/clasp
-```
-
-### Login clasp
-
-```bash
-clasp login
-```
-
-### Ambil update dari Apps Script ke lokal
-
-Gunakan command ini jika kamu mengedit kode langsung dari Apps Script Editor:
-
-```bash
-cd /d D:\Web-Projects\01-kasir
-clasp pull
-```
-
-### Kirim update dari lokal ke Apps Script
-
-Gunakan command ini jika kamu mengedit kode dari folder lokal:
-
-```bash
-cd /d D:\Web-Projects\01-kasir
-clasp push
-```
+> ⚠️ Aplikasi ini tidak menggunakan sistem login — siapa pun yang punya link bisa langsung mengakses dan menggunakan. Cocok untuk pemakaian internal 1 kasir/1 outlet.
 
 ---
 
-## Sinkronisasi dengan GitHub
+## 🖼️ Screenshot
 
-Project ini berada di dalam repository:
+| Menu Kasir | Menu Transaksi |
+|---|---|
+| ![Menu Kasir](images/menu_kasir.png) | ![Menu Transaksi](images/menu_transaksi.png) |
 
-```text
-Web-Projects
+| Menu Pengeluaran | Menu Rekap |
+|---|---|
+| ![Menu Pengeluaran](images/menu_pengeluaran.png) | ![Menu Rekap](images/menu_rekap.png) |
+
+> 📷 Produk di menu Kasir tampil lengkap dengan gambar — gambar disimpan di Google Drive dan direferensikan lewat kolom `Gambar URL` di sheet `Produk`.
+
+---
+
+## 🛠️ Tech Stack
+
+| Teknologi | Kegunaan |
+|---|---|
+| [Google Apps Script](https://script.google.com) | Backend — logika bisnis & API |
+| [Google Sheets](https://sheets.google.com) | Database utama (tanpa perlu SQL/hosting DB terpisah) |
+| HTML Service (Apps Script) | Frontend — single-page app, HTML + CSS + JS dalam satu file |
+| Vanilla JavaScript | Interaksi client-side (tanpa framework, tanpa build step) |
+
+Tidak ada dependency eksternal, tidak ada `npm install`, tidak ada biaya hosting — semuanya berjalan di infrastruktur Google.
+
+---
+
+## 🚀 Cara Menjalankan / Deploy Sendiri
+
+### Prasyarat
+- Akun Google (gratis)
+- Salin spreadsheet database (lihat di atas) ke Drive kamu sendiri, atau siapkan spreadsheet baru dengan struktur sheet yang sama
+
+### 1. Siapkan Spreadsheet
+1. Buka [spreadsheet database](https://docs.google.com/spreadsheets/d/1BJjrzxlBJAS9kQjDUhveEDbL0CrzNV2lJsSAe498v6U/edit?usp=sharing) → `File > Buat salinan` ke Drive kamu
+2. Copy **ID spreadsheet** dari URL hasil salinan (bagian antara `/d/` dan `/edit`)
+
+### 2. Siapkan Apps Script
+1. Buat project Apps Script baru → [script.google.com](https://script.google.com)
+2. Buat 4 file berikut, isi persis sesuai kode di project ini:
+   - `Kode.gs` (backend — semua logika & API)
+   - `index.html` (halaman utama/kerangka SPA)
+   - `script.html` (logika JavaScript client-side)
+   - `style.html` (styling/CSS)
+3. Pastikan project terhubung ke spreadsheet database (aplikasi ini berjalan sebagai **container-bound script** — dibuat langsung dari menu `Ekstensi > Apps Script` di spreadsheet, sehingga otomatis terhubung ke spreadsheet aktif lewat `SpreadsheetApp.getActive()`)
+4. Simpan semua file
+
+### 3. Deploy sebagai Web App
+1. `Deploy > New deployment`
+2. Pilih tipe **Web app**
+3. Execute as: **Me** — Who has access: **Anyone**
+4. Klik **Deploy**, copy URL `.../exec` yang muncul — itu URL aplikasi kamu
+
+### 4. Update Deployment (kalau ada perubahan kode)
+`Deploy > Manage deployments > (pensil edit) > New version > Deploy` — URL tetap sama, tidak perlu buat deployment baru tiap kali update kode.
+
+---
+
+## 🗄️ Struktur Database (Google Sheets)
+
+| Sheet | Isi |
+|---|---|
+| `TRANSAKSI` | Data transaksi penjualan (tanggal, item, qty, harga, total) |
+| `PENGELUARAN` | Data pengeluaran operasional (tanggal, keterangan, nominal) |
+| `REKAP` | Ringkasan omzet, pengeluaran, dan laba per periode |
+
+> 💾 Fungsi baca/tulis data di `Kode.gs` bekerja **berdasarkan nama kolom**, bukan posisi/urutan — jadi menambah kolom baru di spreadsheet tidak akan merusak data yang sudah ada.
+
+---
+
+## 📁 Struktur Project
+
 ```
-
-Dengan struktur:
-
-```text
-Web-Projects/
-└── 01-kasir/
-```
-
-### Upload perubahan ke GitHub
-
-Jika ada perubahan pada project `01-kasir`, jalankan:
-
-```bash
-cd /d D:\Web-Projects
-git add 01-kasir
-git commit -m "update 01-kasir"
-git push
+kasir-app/
+├── Kode.gs      # Backend: semua logika bisnis & API (google.script.run)
+└── Index.html   # Frontend: menu kasir, transaksi, pengeluaran, rekap (1 file, SPA)
 ```
 
 ---
 
-## Alur Kerja yang Disarankan
+## 🗺️ Roadmap
 
-### Jika mengedit dari Apps Script Editor
-
-```text
-Apps Script Editor
-        ↓
-clasp pull
-        ↓
-git add
-        ↓
-git commit
-        ↓
-git push
-        ↓
-GitHub update
-```
-
-Command:
-
-```bash
-cd /d D:\Web-Projects\01-kasir
-clasp pull
-
-cd /d D:\Web-Projects
-git add 01-kasir
-git commit -m "update 01-kasir from apps script"
-git push
-```
+- [x] Menu Kasir/Transaksi
+- [x] Menu Pengeluaran
+- [x] Menu Rekap omzet & pengeluaran
+- [ ] Cetak/unduh struk transaksi
+- [ ] Tracking stok barang
+- [ ] Login multi-user (kasir & pemilik)
+- [ ] Grafik omzet harian/bulanan di dashboard
 
 ---
 
-### Jika mengedit dari folder lokal
+<div align="center">
 
-```text
-Folder lokal
-        ↓
-clasp push
-        ↓
-Apps Script update
-        ↓
-git push
-        ↓
-GitHub update
-```
+🧾 Dibangun di atas Google Apps Script — gratis, tanpa server, tanpa biaya hosting.
 
-Command:
-
-```bash
-cd /d D:\Web-Projects\01-kasir
-clasp push
-
-cd /d D:\Web-Projects
-git add 01-kasir
-git commit -m "update 01-kasir"
-git push
-```
-
----
-
-## Auto Sync
-
-Project ini dapat dibuat otomatis sinkron dari Apps Script ke GitHub menggunakan GitHub Actions.
-
-Alur auto sync:
-
-```text
-Apps Script
-        ↓
-GitHub Actions
-        ↓
-clasp pull
-        ↓
-Auto commit
-        ↓
-GitHub update
-```
-
-Workflow auto sync dapat dibuat di:
-
-```text
-.github/workflows/sync-appscript.yml
-```
-
----
-
-## Catatan Penting
-
-* File Spreadsheet tetap berada di Google Drive.
-* Yang disimpan di GitHub adalah kode Apps Script dan file frontend.
-* Jangan menghapus file `.clasp.json` karena file tersebut menghubungkan folder lokal dengan project Apps Script.
-* Jangan upload file `.clasprc.json` ke GitHub karena berisi data login clasp.
-* Jika mengedit dari Apps Script Editor, gunakan `clasp pull` sebelum commit ke GitHub.
-* Jika mengedit dari lokal, gunakan `clasp push` agar Apps Script ikut update.
-
----
-
-## Author
-
-Project ini dibuat dan dikelola oleh **Sagasen**.
+</div>
