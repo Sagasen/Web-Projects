@@ -7,7 +7,6 @@
 
 [![Live App](https://img.shields.io/badge/🌐_Live_App-Apps_Script-4285F4?style=for-the-badge&logo=googleappsscript&logoColor=white)](https://script.google.com/macros/s/AKfycbw7Iq0QTnEt2q7AuC0Kj2vLrNMP8d9yufRJtp2cYHBSjiyBZkMUbRbGgjfFshyGepHi/exec)
 [![Database](https://img.shields.io/badge/Database-Google_Sheets-34A853?style=for-the-badge&logo=googlesheets&logoColor=white)](https://docs.google.com/spreadsheets/d/1BJjrzxlBJAS9kQjDUhveEDbL0CrzNV2lJsSAe498v6U/edit?usp=sharing)
-[![Backend](https://img.shields.io/badge/Backend-Google_Apps_Script-yellow?style=for-the-badge&logo=googleappsscript&logoColor=black)](https://script.google.com)
 
 </div>
 
