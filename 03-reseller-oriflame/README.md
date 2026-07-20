@@ -189,9 +189,9 @@ git push origin main
 ## 👥 Role & Akses
 
 | Role | Akses |
-|---|---|
-| **Pengunjung** | Lihat katalog produk, promo, dan keranjang (tanpa login) |
-| **Admin** | Login di `/admin`, kelola produk & promo dari dashboard |
+|---|---|---|
+| **Pengunjung** | Lihat katalog produk, promo, dan keranjang (tanpa login) | 
+| **Admin** | Login di `/admin`, kelola produk & promo dari dashboard | 
 
 > 💡 Login admin dilakukan di halaman `/admin` (tidak ada link dari halaman publik).
 
@@ -204,7 +204,7 @@ git push origin main
 
 | Role | Email | Password |
 |---|---|---|
-| Admin | admin@gmail.com | admin123 |
+| Admin | admin@gmail.com | admin123 | 
 
 ---
 
