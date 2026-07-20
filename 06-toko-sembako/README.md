@@ -186,11 +186,11 @@ git push origin main
 
 ### Akun Demo
 
-| Role | Email / No. HP | Password |
-| --- | --- | --- |
-| Customer | 081234567890 | `customer` |
-| Kasir | kasir@gmail.com | `kasir123` |
-| Owner | owner@gmail.com | `owner123` |
+| Role | Email / No. HP | Password | Link |
+| --- | --- | --- | --- |
+| Customer | 081234567890 | `customer` | https://platform-ecommerce-umkm.vercel.app/ |
+| Kasir | kasir@gmail.com | `kasir123` | https://platform-ecommerce-umkm.vercel.app/admin |
+| Owner | owner@gmail.com | `owner123` | https://platform-ecommerce-umkm.vercel.app/admin |
 
 ---
 
