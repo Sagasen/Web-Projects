@@ -196,9 +196,9 @@ git push origin main
 
 Jika `.env.local` tidak diisi atau masih placeholder, aplikasi otomatis berjalan dalam **Offline Demo Mode** menggunakan `localStorage`.
 
-| Role | Email | Password |
-|---|---|---|
-| Admin | `admin@gmail.com` | `admin123` |
+| Role | Email | Password | Link |
+|---|---|---|---|
+| Admin | `admin@gmail.com` | `admin123` | https://aeon-studio.vercel.app/admin |
 
 ---
 
