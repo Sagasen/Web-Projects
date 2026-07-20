@@ -174,10 +174,10 @@ git push origin main
 
 ### Akun Demo
 
-| Role | Email | Password |
-|---|---|---|
-| Customer | customer@gmail.com | customer |
-| Admin | admin@gmail.com | admin123 |
+| Role | Email | Password | Link |
+|---|---|---|---|
+| Customer | customer@gmail.com | customer |https://reservasi-online.vercel.app |
+| Admin | admin@gmail.com | admin123 | https://reservasi-online.vercel.app/admin |
 
 ---
 
